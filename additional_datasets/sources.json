@@ -1,0 +1,23 @@
+[
+  {
+    "key": "russian_injections",
+    "repo": "dmtrdr/russian_prompt_injections",
+    "revision": "2bb249ed6b692f258ac9a369015aeafe1f011fc7",
+    "license": "Apache-2.0",
+    "files": ["README.md", "dataset.json"]
+  },
+  {
+    "key": "neuralchemy",
+    "repo": "neuralchemy/Prompt-injection-dataset",
+    "revision": "7d70432dfcf47a821612cbf9d34e9d9e3ad20e75",
+    "license": "Apache-2.0",
+    "files": ["README.md", "core/train-00000-of-00001.parquet"]
+  },
+  {
+    "key": "deepset",
+    "repo": "deepset/prompt-injections",
+    "revision": "4f61ecb038e9c3fb77e21034b22511b523772cdd",
+    "license": "Apache-2.0",
+    "files": ["README.md", "data/train-00000-of-00001-9564e8b05b4757ab.parquet"]
+  }
+]
