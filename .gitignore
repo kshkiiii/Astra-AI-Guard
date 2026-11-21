@@ -6,3 +6,4 @@ reports/
 additional_datasets/raw/
 research/
 tests/
+!api/tests/

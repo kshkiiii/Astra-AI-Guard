@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0079c1">
+  <meta name="description" content="ИИ-сторож — проверка запросов к DevOps-агенту, подтверждение действий и журнал решений.">
+  <title>ИИ-сторож · Контроль запросов</title>
+  <link rel="icon" href="/assets/favicon.svg?v=astra" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="/assets/astra-theme.css">
+  <script src="/assets/app.js" defer></script>
+</head>
+<body>
+  <svg class="icon-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6l8-3Z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></symbol>
+    <symbol id="i-scan" viewBox="0 0 24 24"><path d="M8 3H4a1 1 0 0 0-1 1v4m13-5h4a1 1 0 0 1 1 1v4M3 16v4a1 1 0 0 0 1 1h4m8 0h4a1 1 0 0 0 1-1v-4M3 12h18"/><path d="m9 8 3-2 3 2v7l-3 3-3-3Z"/></symbol>
+    <symbol id="i-log" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M9 8h7M9 12h7M9 16h4M7 8h.01M7 12h.01M7 16h.01"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 7-5 5 5 5m8-10 5 5-5 5m-3-14-2 18"/></symbol>
+    <symbol id="i-tool" viewBox="0 0 24 24"><path d="M14 6a5 5 0 0 0-6 6L3 17a3 3 0 0 0 4 4l5-5a5 5 0 0 0 6-6l-3 3-4-4 3-3Z"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="9" r="5"/><path d="m12 12 9 9m-4-4 3-3m-6 0 3-3"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 6v12m6-12v12"/></symbol>
+    <symbol id="i-block" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m6 6 12 12"/></symbol>
+    <symbol id="i-paper" viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9l-6-6Z"/><path d="M14 3v6h6M8 13h8m-8 4h5"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 11a8 8 0 0 1-8 8H5l-3 3V11a9 9 0 0 1 19 0Z"/><path d="M7 9h9m-9 5h5"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6 6a8 8 0 0 1 13 3M5 15a8 8 0 0 0 13 3"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-2 2m3 6a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l2-2"/></symbol>
+  </svg>
+
+  <div class="service-strip">
+    <div class="site-container service-strip-inner"><span>Кейс «Астра» <span class="strip-divider">/</span> Демонстрационная страница</span><div class="server-state" id="server-state" role="status"><span class="status-dot"></span><span id="server-label">Подключение к серверу</span></div></div>
+  </div>
+  <header class="site-header">
+    <div class="site-container header-inner">
+      <a class="brand" href="#check" aria-label="Группа Астра · ИИ-сторож, главная"><img src="/assets/astra-logo.svg" alt="Группа Астра" width="187" height="50"><span class="brand-product">ИИ-сторож<span>Контроль запросов</span></span></a>
+      <nav class="navigation" aria-label="Основная навигация">
+        <a href="#check" class="nav-item active" id="nav-check" aria-current="page">Проверка запроса</a>
+        <a href="#audit" class="nav-item" id="nav-audit">Журнал решений</a>
+        <a href="#policy" class="nav-item" id="nav-policy">Настройка политики</a>
+      </nav>
+      <a class="docs-link" href="/docs" target="_blank" rel="noopener"><svg class="icon"><use href="#i-code"/></svg>Документация API</a>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="topbar"><span class="breadcrumb">ИИ-сторож <span>/</span> <strong id="breadcrumb-current">Проверка</strong></span><span class="local-status">Локальная модель <span>·</span> YAML-политика</span></div>
+
+    <section id="check-view" aria-labelledby="page-title">
+      <div class="page-heading hero-heading"><div class="hero-copy"><div class="eyebrow">ЗАЩИТА DEVOPS-АГЕНТА</div><h1 id="page-title">Безопасность<br><span>до действия.</span></h1><p>Проверьте намерение, полномочия и риск — прежде чем передать запрос агенту.</p><span class="version-tag" id="policy-label">YAML-политика</span></div></div>
+      <div class="check-layout">
+        <section class="card composer" aria-labelledby="composer-title">
+          <div class="card-heading"><div><h2 id="composer-title">Новый запрос</h2><p>Задайте контекст для проверки</p></div><span class="agent-label"><span class="agent-dot"></span>it_ops_agent</span></div>
+          <form id="request-form">
+            <fieldset id="request-fields">
+              <legend class="sr-only">Запрос и контекст</legend>
+              <div class="field-heading"><span>От чьего имени</span><span class="muted">Демо-профиль</span></div>
+              <div class="role-options" role="radiogroup" aria-label="Роль пользователя">
+                <label class="role-option"><input type="radio" name="role" value="developer" checked><span class="role-content"><svg class="icon"><use href="#i-code"/></svg><strong>Developer</strong><span>Разработка</span><span class="role-check"></span></span></label>
+                <label class="role-option"><input type="radio" name="role" value="sre"><span class="role-content"><svg class="icon"><use href="#i-tool"/></svg><strong>SRE</strong><span>Эксплуатация</span><span class="role-check"></span></span></label>
+                <label class="role-option"><input type="radio" name="role" value="admin"><span class="role-content"><svg class="icon"><use href="#i-key"/></svg><strong>Admin</strong><span>Управление</span><span class="role-check"></span></span></label>
+              </div>
+              <div class="prompt-heading"><label for="prompt">Запрос агенту</label><span id="char-count" class="muted">0 символов</span></div>
+              <textarea id="prompt" class="prompt-input" name="prompt" rows="5" maxlength="200000" required placeholder="Например: покажи логи payments-api в dev">Покажи логи payments-api в dev</textarea>
+              <div class="examples" aria-label="Примеры запросов"><span>Попробуйте:</span><button type="button" data-example="logs">Чтение логов</button><button type="button" data-example="restart">Production-рестарт</button><button type="button" data-example="injection">Инъекция</button></div>
+              <div class="context-editors">
+                <details id="history-details"><summary><span><svg class="icon"><use href="#i-chat"/></svg>История диалога <span class="count" id="history-count">0</span></span><svg class="icon chevron"><use href="#i-chevron"/></svg></summary><div class="details-body"><p class="field-help">Предыдущие реплики, которые нужно учесть при проверке.</p><div id="history-list"></div><button class="text-button" type="button" id="add-history"><svg class="icon"><use href="#i-plus"/></svg>Добавить реплику</button></div></details>
+                <details id="attachments-details"><summary><span><svg class="icon"><use href="#i-paper"/></svg>Текстовые вложения <span class="count" id="attachments-count">0</span></span><svg class="icon chevron"><use href="#i-chevron"/></svg></summary><div class="details-body"><p class="field-help">Вставьте текст документа или логов. Содержимое также проверяется на инъекции.</p><div id="attachments-list"></div><button class="text-button" type="button" id="add-attachment"><svg class="icon"><use href="#i-plus"/></svg>Добавить вложение</button></div></details>
+              </div>
+              <div class="form-actions"><button class="button primary" type="submit" id="check-button"><svg class="icon"><use href="#i-scan"/></svg>Проверить запрос</button><button class="button secondary" type="button" id="send-button">Проверить и передать</button></div>
+            </fieldset>
+          </form>
+          <div class="form-note"><svg class="icon"><use href="#i-shield"/></svg><span id="form-note">Проверка не отправляет запрос агенту. Передача — отдельное действие.</span></div>
+          <div id="form-error" class="error-message" role="alert" hidden></div>
+        </section>
+
+        <aside class="result-column">
+          <section class="card result-card" id="result-card" aria-labelledby="result-title" aria-live="polite" aria-busy="false">
+            <div class="result-topline"><h2 id="result-title">Результат проверки</h2><span class="muted" id="result-state">Ожидание запроса</span></div>
+            <div id="result-content"></div>
+          </section>
+        </aside>
+      </div>
+      
+    </section>
+
+    <section id="audit-view" aria-labelledby="audit-title" hidden>
+      <div class="page-heading"><div><div class="eyebrow">ЖУРНАЛ РЕШЕНИЙ</div><h1 id="audit-title">Каждое решение — на виду.</h1><p>История проверок и подтверждений. Содержимое запросов не записывается.</p></div></div>
+      <div class="card audit-card"><div class="audit-toolbar"><div class="filter-group" role="group" aria-label="Фильтр решений"><button class="filter active" data-filter="" aria-pressed="true">Все решения</button><button class="filter" data-filter="allow" aria-pressed="false">Allow</button><button class="filter" data-filter="confirm" aria-pressed="false">Confirm</button><button class="filter" data-filter="block" aria-pressed="false">Block</button></div><button class="button secondary compact" id="refresh-audit"><svg class="icon"><use href="#i-refresh"/></svg>Обновить</button></div><div id="audit-error" class="error-message" role="alert" hidden></div><div class="table-scroll"><table><caption class="sr-only">Журнал решений ИИ-сторожа</caption><thead><tr><th>Время / ID запроса</th><th>Роль</th><th>Решение</th><th>Категория</th><th>Задержка</th><th>Событие</th></tr></thead><tbody id="audit-rows"></tbody></table></div><div id="audit-empty" class="audit-empty" hidden>Проверок пока нет. Начните с нового запроса.</div><div class="audit-bottom"><span id="audit-total" class="muted">Загрузка журнала…</span><button id="load-more" class="text-button" hidden>Показать ещё</button></div></div>
+    </section>
+    <section id="policy-view" aria-labelledby="policy-title" hidden>
+      <div class="page-heading"><div><div class="eyebrow">ПРАВИЛА БЕЗОПАСНОСТИ</div><h1 id="policy-title">Настройка политики</h1><p>Управление правилами доступа и подтверждения действий.</p></div></div>
+      <div class="card policy-placeholder"><svg class="icon"><use href="#i-tool"/></svg><h2>Раздел в разработке</h2><p>Здесь появятся настройки ролей, инструментов и окружений. Пока страница работает как заглушка.</p></div>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="site-container footer-inner"><div class="footer-brand"><img src="/assets/astra-logo.svg" alt="Группа Астра" width="187" height="50"></div><p>Демонстрационный проект по кейсу «Астра».<br>Агент фиксирует получение запроса без выполнения команд.</p></div></footer>
+
+  <dialog id="confirmation-dialog" aria-labelledby="confirmation-title"><div class="dialog-heading"><span class="decision-icon confirm"><svg class="icon"><use href="#i-pause"/></svg></span><button class="icon-button" id="close-dialog" aria-label="Закрыть подтверждение"><svg class="icon"><use href="#i-close"/></svg></button></div><h2 id="confirmation-title">Подтвердить передачу?</h2><p class="dialog-description">Это действие требует вашего отдельного согласия. Агент получит сохранённый запрос с проверенным контекстом.</p><div class="confirmation-preview"><span class="muted" id="confirmation-role"></span><p id="confirmation-prompt"></p><span class="muted" id="confirmation-context"></span></div><label class="consent-label"><input type="checkbox" id="confirmation-consent"><span>Я подтверждаю передачу именно этого запроса демо-агенту.</span></label><div class="error-message" id="confirmation-error" role="alert" hidden></div><div class="dialog-actions"><button class="button secondary" id="cancel-confirmation">Отмена</button><button class="button primary" id="confirm-button" disabled>Подтвердить и передать</button></div></dialog>
+
+  <template id="history-template"><div class="editor-row history-row"><div class="editor-row-heading"><label class="sr-only">Автор реплики</label><select class="history-role" aria-label="Автор реплики"><option value="user">Пользователь</option><option value="assistant">Ассистент</option></select><button class="icon-button remove-row" type="button" aria-label="Удалить реплику"><svg class="icon"><use href="#i-close"/></svg></button></div><textarea class="history-content" rows="2" maxlength="200000" aria-label="Текст реплики" placeholder="Текст предыдущего сообщения" required></textarea></div></template>
+  <template id="attachment-template"><div class="editor-row attachment-row"><div class="editor-row-heading"><input class="attachment-name" maxlength="512" aria-label="Название вложения" placeholder="Название документа" value="document.txt"><button class="icon-button remove-row" type="button" aria-label="Удалить вложение"><svg class="icon"><use href="#i-close"/></svg></button></div><textarea class="attachment-content" rows="3" maxlength="200000" aria-label="Текст вложения" placeholder="Вставьте содержимое документа или логов" required></textarea></div></template>
+</body>
+</html>
