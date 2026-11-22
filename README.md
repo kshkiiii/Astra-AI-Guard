@@ -17,7 +17,7 @@ cd Astra-AI-Guard
 
 Из готового комплекта: распакуйте ZIP и дважды нажмите **START.bat**.
 
-[Интерфейс](http://127.0.0.1:8000/) · [Документация API](http://127.0.0.1:8000/docs) · [хост] (https://posing-bryant-salaries-awarded.trycloudflare.com/)
+[Интерфейс](http://127.0.0.1:8000/) · [Документация API](http://127.0.0.1:8000/docs) · [хост](https://posing-bryant-salaries-awarded.trycloudflare.com/)
 
 ## Стек технологий
 
