@@ -1,0 +1,138 @@
+{
+  "train_n": 1298,
+  "before": {
+    "validation": {
+      "n": 24,
+      "correct": 13,
+      "recognized": 12,
+      "min_confidence": 0.2517857372532419
+    },
+    "regression": {
+      "n": 252,
+      "correct": 227,
+      "recognized": 180,
+      "min_confidence": 0.18582148062308074
+    },
+    "test": {
+      "n": 24,
+      "correct": 13,
+      "recognized": 12,
+      "min_confidence": 0.23912817961730026
+    }
+  },
+  "after": {
+    "validation": {
+      "n": 24,
+      "correct": 23,
+      "recognized": 22,
+      "min_confidence": 0.2818959772484589
+    },
+    "regression": {
+      "n": 252,
+      "correct": 228,
+      "recognized": 184,
+      "min_confidence": 0.18707652947989062
+    },
+    "test": {
+      "n": 24,
+      "correct": 22,
+      "recognized": 22,
+      "min_confidence": 0.35802226709497964
+    }
+  },
+  "selected": {
+    "prior_strength": 0.05,
+    "validation": {
+      "n": 24,
+      "correct": 23,
+      "recognized": 22,
+      "min_confidence": 0.2818959772484589
+    },
+    "regression": {
+      "n": 252,
+      "correct": 228,
+      "recognized": 184,
+      "min_confidence": 0.18707652947989062
+    },
+    "introduced_errors": 0
+  },
+  "candidates": [
+    {
+      "prior_strength": 0.01,
+      "validation": {
+        "n": 24,
+        "correct": 23,
+        "recognized": 22,
+        "min_confidence": 0.2995324478257345
+      },
+      "regression": {
+        "n": 252,
+        "correct": 231,
+        "recognized": 184,
+        "min_confidence": 0.1852775683400593
+      },
+      "introduced_errors": 0
+    },
+    {
+      "prior_strength": 0.05,
+      "validation": {
+        "n": 24,
+        "correct": 23,
+        "recognized": 22,
+        "min_confidence": 0.2818959772484589
+      },
+      "regression": {
+        "n": 252,
+        "correct": 228,
+        "recognized": 184,
+        "min_confidence": 0.18707652947989062
+      },
+      "introduced_errors": 0
+    },
+    {
+      "prior_strength": 0.2,
+      "validation": {
+        "n": 24,
+        "correct": 23,
+        "recognized": 22,
+        "min_confidence": 0.25485701282677076
+      },
+      "regression": {
+        "n": 252,
+        "correct": 227,
+        "recognized": 183,
+        "min_confidence": 0.1878604754878846
+      },
+      "introduced_errors": 1
+    },
+    {
+      "prior_strength": 1.0,
+      "validation": {
+        "n": 24,
+        "correct": 22,
+        "recognized": 22,
+        "min_confidence": 0.30871407219045605
+      },
+      "regression": {
+        "n": 252,
+        "correct": 223,
+        "recognized": 181,
+        "min_confidence": 0.1871374865606019
+      },
+      "introduced_errors": 4
+    }
+  ],
+  "source_sha256": "cadcfc1ce37b7958c141f6e2d308dc7c38f52e0843a1a4e69379561290f21396",
+  "data_sha256": {
+    "replay_train.jsonl": "ca801ce6ab36ed038ab9f4c4318ec178e52c9163c01eb0e9faa17b65f0b64c63",
+    "replay_validation.jsonl": "2d3dc5a8028ce252396160480044ef3a10c8eef9d6f24d363c1eb722358e1c30",
+    "test.jsonl": "cb6baa7090d20e7a054f49a87e1597e780410a03bcfdd72805ba2e06baf018f2",
+    "train.jsonl": "f6826bff667445340cf729fa8069d7252ec4fe25bd157f5a332abce2199014d5",
+    "validation.jsonl": "62b0816fbfae0ec33c8874ec3f6dc5e1d77fefe274816d9e3dc1ccc77a51724b"
+  },
+  "changed": "Only the delete_resource row in the existing operation_head; all other weights frozen",
+  "note": "Synthetic family-disjoint data; original replay overlap exclusions preserved; test not used for selection",
+  "output_sha256": "45f9b0be5bc7f37426ff176a930e8b9459f2de84e2e1e91f53bf84d252dcfffc",
+  "source_bytes": 2945130,
+  "output_bytes": 2946500
+}

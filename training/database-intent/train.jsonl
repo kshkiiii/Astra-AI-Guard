@@ -1,0 +1,80 @@
+{"text": "Сотри базу данных ledger (dev)", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-0", "provenance": "authored synthetic database deletion"}
+{"text": "Сотри базу данных ledger (production)", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-0", "provenance": "authored synthetic database deletion"}
+{"text": "Сотри базу данных catalog (dev)", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-0", "provenance": "authored synthetic database deletion"}
+{"text": "Сотри базу данных catalog (production)", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-0", "provenance": "authored synthetic database deletion"}
+{"text": "Сотри базу данных metrics (dev)", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-0", "provenance": "authored synthetic database deletion"}
+{"text": "Сотри базу данных metrics (production)", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-0", "provenance": "authored synthetic database deletion"}
+{"text": "Сотри базу данных inventory (dev)", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-0", "provenance": "authored synthetic database deletion"}
+{"text": "Сотри базу данных inventory (production)", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-0", "provenance": "authored synthetic database deletion"}
+{"text": "Дропни БД ledger в dev", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-1", "provenance": "authored synthetic database deletion"}
+{"text": "Дропни БД ledger в production", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-1", "provenance": "authored synthetic database deletion"}
+{"text": "Дропни БД catalog в dev", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-1", "provenance": "authored synthetic database deletion"}
+{"text": "Дропни БД catalog в production", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-1", "provenance": "authored synthetic database deletion"}
+{"text": "Дропни БД metrics в dev", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-1", "provenance": "authored synthetic database deletion"}
+{"text": "Дропни БД metrics в production", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-1", "provenance": "authored synthetic database deletion"}
+{"text": "Дропни БД inventory в dev", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-1", "provenance": "authored synthetic database deletion"}
+{"text": "Дропни БД inventory в production", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-1", "provenance": "authored synthetic database deletion"}
+{"text": "Удали database ledger (dev)", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-2", "provenance": "authored synthetic database deletion"}
+{"text": "Удали database ledger (production)", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-2", "provenance": "authored synthetic database deletion"}
+{"text": "Удали database catalog (dev)", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-2", "provenance": "authored synthetic database deletion"}
+{"text": "Удали database catalog (production)", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-2", "provenance": "authored synthetic database deletion"}
+{"text": "Удали database metrics (dev)", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-2", "provenance": "authored synthetic database deletion"}
+{"text": "Удали database metrics (production)", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-2", "provenance": "authored synthetic database deletion"}
+{"text": "Удали database inventory (dev)", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-2", "provenance": "authored synthetic database deletion"}
+{"text": "Удали database inventory (production)", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-2", "provenance": "authored synthetic database deletion"}
+{"text": "DROP DATABASE ledger; -- dev", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-3", "provenance": "authored synthetic database deletion"}
+{"text": "DROP DATABASE ledger; -- production", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-3", "provenance": "authored synthetic database deletion"}
+{"text": "DROP DATABASE catalog; -- dev", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-3", "provenance": "authored synthetic database deletion"}
+{"text": "DROP DATABASE catalog; -- production", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-3", "provenance": "authored synthetic database deletion"}
+{"text": "DROP DATABASE metrics; -- dev", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-3", "provenance": "authored synthetic database deletion"}
+{"text": "DROP DATABASE metrics; -- production", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-3", "provenance": "authored synthetic database deletion"}
+{"text": "DROP DATABASE inventory; -- dev", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-3", "provenance": "authored synthetic database deletion"}
+{"text": "DROP DATABASE inventory; -- production", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-3", "provenance": "authored synthetic database deletion"}
+{"text": "Delete the database ledger in dev", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-4", "provenance": "authored synthetic database deletion"}
+{"text": "Delete the database ledger in production", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-4", "provenance": "authored synthetic database deletion"}
+{"text": "Delete the database catalog in dev", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-4", "provenance": "authored synthetic database deletion"}
+{"text": "Delete the database catalog in production", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-4", "provenance": "authored synthetic database deletion"}
+{"text": "Delete the database metrics in dev", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-4", "provenance": "authored synthetic database deletion"}
+{"text": "Delete the database metrics in production", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-4", "provenance": "authored synthetic database deletion"}
+{"text": "Delete the database inventory in dev", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-4", "provenance": "authored synthetic database deletion"}
+{"text": "Delete the database inventory in production", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-4", "provenance": "authored synthetic database deletion"}
+{"text": "Remove database ledger (dev)", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-5", "provenance": "authored synthetic database deletion"}
+{"text": "Remove database ledger (production)", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-5", "provenance": "authored synthetic database deletion"}
+{"text": "Remove database catalog (dev)", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-5", "provenance": "authored synthetic database deletion"}
+{"text": "Remove database catalog (production)", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-5", "provenance": "authored synthetic database deletion"}
+{"text": "Remove database metrics (dev)", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-5", "provenance": "authored synthetic database deletion"}
+{"text": "Remove database metrics (production)", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-5", "provenance": "authored synthetic database deletion"}
+{"text": "Remove database inventory (dev)", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-5", "provenance": "authored synthetic database deletion"}
+{"text": "Remove database inventory (production)", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-5", "provenance": "authored synthetic database deletion"}
+{"text": "DROP TABLE IF EXISTS ledger; -- dev", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-6", "provenance": "authored synthetic database deletion"}
+{"text": "DROP TABLE IF EXISTS ledger; -- production", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-6", "provenance": "authored synthetic database deletion"}
+{"text": "DROP TABLE IF EXISTS catalog; -- dev", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-6", "provenance": "authored synthetic database deletion"}
+{"text": "DROP TABLE IF EXISTS catalog; -- production", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-6", "provenance": "authored synthetic database deletion"}
+{"text": "DROP TABLE IF EXISTS metrics; -- dev", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-6", "provenance": "authored synthetic database deletion"}
+{"text": "DROP TABLE IF EXISTS metrics; -- production", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-6", "provenance": "authored synthetic database deletion"}
+{"text": "DROP TABLE IF EXISTS inventory; -- dev", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-6", "provenance": "authored synthetic database deletion"}
+{"text": "DROP TABLE IF EXISTS inventory; -- production", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-6", "provenance": "authored synthetic database deletion"}
+{"text": "Уничтожь таблицу ledger в dev", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-7", "provenance": "authored synthetic database deletion"}
+{"text": "Уничтожь таблицу ledger в production", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-7", "provenance": "authored synthetic database deletion"}
+{"text": "Уничтожь таблицу catalog в dev", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-7", "provenance": "authored synthetic database deletion"}
+{"text": "Уничтожь таблицу catalog в production", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-7", "provenance": "authored synthetic database deletion"}
+{"text": "Уничтожь таблицу metrics в dev", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-7", "provenance": "authored synthetic database deletion"}
+{"text": "Уничтожь таблицу metrics в production", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-7", "provenance": "authored synthetic database deletion"}
+{"text": "Уничтожь таблицу inventory в dev", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-7", "provenance": "authored synthetic database deletion"}
+{"text": "Уничтожь таблицу inventory в production", "operation": "delete_resource", "mode": "execute", "split": "train", "family_id": "database-train-7", "provenance": "authored synthetic database deletion"}
+{"text": "dev", "operation": "none", "mode": "informational", "split": "train", "family_id": "database-negative-train-0", "provenance": "authored nonexecuting environment metadata"}
+{"text": "production", "operation": "none", "mode": "informational", "split": "train", "family_id": "database-negative-train-0", "provenance": "authored nonexecuting environment metadata"}
+{"text": "staging", "operation": "none", "mode": "informational", "split": "train", "family_id": "database-negative-train-0", "provenance": "authored nonexecuting environment metadata"}
+{"text": "test", "operation": "none", "mode": "informational", "split": "train", "family_id": "database-negative-train-0", "provenance": "authored nonexecuting environment metadata"}
+{"text": "-- dev", "operation": "none", "mode": "informational", "split": "train", "family_id": "database-negative-train-1", "provenance": "authored nonexecuting environment metadata"}
+{"text": "-- production", "operation": "none", "mode": "informational", "split": "train", "family_id": "database-negative-train-1", "provenance": "authored nonexecuting environment metadata"}
+{"text": "-- staging", "operation": "none", "mode": "informational", "split": "train", "family_id": "database-negative-train-1", "provenance": "authored nonexecuting environment metadata"}
+{"text": "-- test", "operation": "none", "mode": "informational", "split": "train", "family_id": "database-negative-train-1", "provenance": "authored nonexecuting environment metadata"}
+{"text": "# dev", "operation": "none", "mode": "informational", "split": "train", "family_id": "database-negative-train-2", "provenance": "authored nonexecuting environment metadata"}
+{"text": "# production", "operation": "none", "mode": "informational", "split": "train", "family_id": "database-negative-train-2", "provenance": "authored nonexecuting environment metadata"}
+{"text": "# staging", "operation": "none", "mode": "informational", "split": "train", "family_id": "database-negative-train-2", "provenance": "authored nonexecuting environment metadata"}
+{"text": "# test", "operation": "none", "mode": "informational", "split": "train", "family_id": "database-negative-train-2", "provenance": "authored nonexecuting environment metadata"}
+{"text": "Окружение: dev", "operation": "none", "mode": "informational", "split": "train", "family_id": "database-negative-train-3", "provenance": "authored nonexecuting environment metadata"}
+{"text": "Окружение: production", "operation": "none", "mode": "informational", "split": "train", "family_id": "database-negative-train-3", "provenance": "authored nonexecuting environment metadata"}
+{"text": "Окружение: staging", "operation": "none", "mode": "informational", "split": "train", "family_id": "database-negative-train-3", "provenance": "authored nonexecuting environment metadata"}
+{"text": "Окружение: test", "operation": "none", "mode": "informational", "split": "train", "family_id": "database-negative-train-3", "provenance": "authored nonexecuting environment metadata"}

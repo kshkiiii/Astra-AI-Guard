@@ -22,7 +22,7 @@ def now() -> str:
 
 
 class DemoAgent:
-    """Local receiving adapter. It never executes commands or calls external APIs."""
+
 
     def receive(self, request_id: str, request: CheckRequest) -> AgentReceipt:
         return AgentReceipt(receipt_id=str(uuid4()), request_id=request_id,
@@ -72,8 +72,8 @@ class GuardService:
             GuardService._clear_text_cache(member)
 
     def _infer(self, request: CheckRequest) -> CheckResult:
-        # The shared tokenizer and its text cache are mutable. Avoid simultaneous
-        # inference and an unbounded queue; readiness remains responsive.
+
+
         if not self._inference_lock.acquire(blocking=False):
             raise HTTPException(503, detail={"error": "guard_busy"}, headers={"Retry-After": "1"})
         if self._executor:
@@ -118,7 +118,7 @@ class GuardService:
                 self._inference_lock.release()
 
     def _record(self, request_id: str, request: CheckRequest, result: CheckResult, event: str) -> None:
-        # Only policy-known role/agent names enter the journal, even on invalid roles.
+
         agents = self.guard.policy.rules["agents"]
         agent = agents.get(request.context.target_agent, {})
         self.audit.append({
@@ -174,8 +174,8 @@ class GuardService:
                 raise HTTPException(404, detail={"error": "confirmation_not_found"})
             if pending.response.status == "delivered":
                 return pending.response.model_copy(deep=True)
-            # The client sends no replacement prompt/context: confirm exactly the
-            # saved request. Re-check with the current policy before delivery.
+
+
             checked = self.check(pending.request, "demo_recheck")
             result = CheckResult.model_validate(checked.model_dump())
             if result.decision == "block":

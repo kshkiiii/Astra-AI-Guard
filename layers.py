@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import re
@@ -7,7 +6,7 @@ import time
 from intent import ActionIntent, SemanticSecurityModel
 from policy import execution_requested, informational_request
 from text_processing import normalize, prepare_input, text_variants
-from request_analysis import anchored_actions, assessment_text
+from request_analysis import anchored_actions, assessment_text, database_deletions
 
 
 def strongest(results):
@@ -211,6 +210,10 @@ class LayeredInspector:
 
 
             if anchors and operation in {"none", "read_logs", "write_repository"}:
+                continue
+            if anchors and operation == "delete_resource" and database_deletions(clause):
+
+
                 continue
             mode = "informational" if informational else "execute" if execution_requested(clause) or prediction["execute_probability"] >= .5 else "informational"
 

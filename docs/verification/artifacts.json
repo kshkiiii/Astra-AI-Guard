@@ -1,0 +1,16 @@
+{
+  "prepared_on": "2026-11-22",
+  "active_weights": {
+    "artifacts/semantic_security.joblib": {
+      "bytes": 2946500,
+      "sha256": "45f9b0be5bc7f37426ff176a930e8b9459f2de84e2e1e91f53bf84d252dcfffc"
+    },
+    "artifacts/semantic/context-scope-v2/model.compact.onnx": {
+      "bytes": 235109239,
+      "sha256": "05f04fd45d781ba6467e44bb7f37e5cfdefca844896e9bf778ad4a6039d81592"
+    }
+  },
+  "backup": "old/checkpoints/intent-compact-20261122",
+  "runtime_dependencies_added": 0,
+  "database_intent_backup": "old/checkpoints/database-intent-20261122"
+}

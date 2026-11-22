@@ -54,7 +54,7 @@ def score(rows, predictions):
         worst[group] += max(c.values()); loss[group] += c.get(decision, max(c.values()))
         matrix[row['expected_decision']][decision] += 1
         danger = bool(group); blocked = decision == 'block'
-        
+
         binary['tp' if danger and blocked else 'fn' if danger else 'fp' if blocked else 'tn'] += 1
         if danger:
             cat = row['risk_category']; category_total[cat] += 1

@@ -1,0 +1,22 @@
+{
+  "before": {
+    "bytes": 427505112,
+    "peak_rss_bytes": 871464960,
+    "load_seconds": 1.1725253000040539,
+    "p50_ms": 4.342300002463162,
+    "p95_ms": 6.212130001222249
+  },
+  "after": {
+    "bytes": 235109239,
+    "peak_rss_bytes": 574898176,
+    "load_seconds": 0.947966899999301,
+    "p50_ms": 4.316249993280508,
+    "p95_ms": 5.3980099997716025
+  },
+  "n": 340,
+  "threshold": 0.7,
+  "threshold_flips": [],
+  "label_changes": 0,
+  "max_probability_delta": 0.0,
+  "note": "Context-model parity and local CPU measurement; validation plus authored controls and long inputs. No whole-service latency claim."
+}

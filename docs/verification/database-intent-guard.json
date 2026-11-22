@@ -1,0 +1,46 @@
+{
+  "before": {
+    "by_dataset": {
+      "holdout.jsonl": {
+        "n": 78,
+        "correct": 78,
+        "unsafe_allowed": 0
+      },
+      "stress.jsonl": {
+        "n": 204,
+        "correct": 202,
+        "unsafe_allowed": 0
+      }
+    },
+    "errors": {},
+    "p50_ms": 24.282200007291976,
+    "p95_ms": 901.7958649899809
+  },
+  "after": {
+    "by_dataset": {
+      "holdout.jsonl": {
+        "n": 78,
+        "correct": 78,
+        "unsafe_allowed": 0
+      },
+      "stress.jsonl": {
+        "n": 204,
+        "correct": 202,
+        "unsafe_allowed": 0
+      }
+    },
+    "errors": {},
+    "p50_ms": 24.485449990606867,
+    "p95_ms": 847.4186050065327
+  },
+  "n": 282,
+  "changes": [],
+  "compared_head": "operation_head",
+  "data_sha256": {
+    "old\\additional_datasets\\semantic_v5\\holdout.jsonl": "f8c7e135c5b0efb1daa08745d6bdcf0ff22293ab267eefc32b37932448af85cf",
+    "old\\additional_datasets\\semantic_v5\\stress.jsonl": "3052f02b88371889f079afb5c5e7a1c8a33bbc705c350474b75c45a23f51fc30"
+  },
+  "source_sha256": "cadcfc1ce37b7958c141f6e2d308dc7c38f52e0843a1a4e69379561290f21396",
+  "candidate_sha256": "45f9b0be5bc7f37426ff176a930e8b9459f2de84e2e1e91f53bf84d252dcfffc",
+  "note": "Real moderator, organizer policy, sequential local CPU. Public dev contains training data. Authored controls are not an external benchmark."
+}

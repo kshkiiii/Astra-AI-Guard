@@ -1,0 +1,8 @@
+{
+  "url": "https://github.com/ggml-org/llama.cpp/releases/download/b12606/llama-b12606-bin-win-cpu-x64.zip",
+  "bytes": 25009049,
+  "sha256": "425eeb2a94a9600dadf369a7c9c7dd0141948921efc0fa9ec7872970fffc845d",
+  "path": "artifacts\\llama.cpp\\llama-b12606-bin-win-cpu-x64.zip",
+  "tag": "b12606",
+  "license": "MIT"
+}

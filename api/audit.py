@@ -6,7 +6,7 @@ from pathlib import Path
 
 
 class AuditLog:
-    """Durable metadata only: no prompts, history, attachments or secret values."""
+
 
     def __init__(self, path: Path):
         self.path = path

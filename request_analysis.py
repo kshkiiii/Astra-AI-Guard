@@ -1,6 +1,3 @@
-
-
-
 from __future__ import annotations
 
 import fnmatch
@@ -15,6 +12,21 @@ LOGS = r"\b(?:лог\w*|журнал\w*|logs?|logfile)\b"
 MUTATE = r"\b(?:дропни|дропнуть|drop|добав\w*|внеси|внести|измени\w*|изменить|исправ\w*|впиши|запиши|записать|закоммит\w*|залей|запуш\w*|закинь|закинуть|удал\w*|убери|отредактир\w*|обнови|влей|вмерж\w*|merge|commit|push|edit|modify|change|add|delete|remove|update)\b"
 REPOSITORY = r"\b(?:ветк\w*|веточк\w*|branch|репозитори\w*|repository|repo)\b|(?:prod|production)[- ]ветк"
 INFRA_CHANGE = r"\b(?:deploy|redeploy|rollout|configure|д[еэ]плой\w*|задеплой\w*|разверни|развернуть|перевыкати|выкати|выкатить)\b|\b(?:поставь|установи|измени|смени|выставь|set|change|update)\b.{0,100}(?:\b[a-z_][a-z_0-9]*\s*=|log_level|настройк|конфигурац|configuration|replicas|реплик)"
+
+
+
+DATABASE_DELETE = re.compile(
+    r"(?:^|[;\n.!?:]\s*|\b(?:затем|потом|then|and)\s+)\s*"
+    r"(?:(?:пожалуйста|срочно|теперь|сейчас|please|now|прошу)\s+)?"
+    r"(?:удали|сотри|уничтожь|дропни|drop|delete|remove|truncate)\s+"
+    r"(?:(?:полностью|тестовую|the|test)\s+)?"
+    r"(?:баз[ауые](?:\s+данных)?|бд|database|schema|таблиц[ауые]|table)\b"
+    r"(?:\s+if\s+exists)?\s*(?:[`\"\[](?P<quoted>[\w.$-]+)[`\"\]]|(?P<plain>[\w.$-]+))?"
+)
+
+
+def database_deletions(text):
+    return [match["quoted"] or match["plain"] for match in DATABASE_DELETE.finditer(text)]
 
 
 def assessment_text(text):
@@ -79,6 +91,8 @@ def anchored_actions(text, context, policy):
         obj = objects[0] if objects else None
         operations = []
         from request_framing import framing
+        for database in database_deletions(clause):
+            actions.append(ActionIntent("delete_resource", database, env, "none", mode, "current_user", 1.))
         if re.search(INFRA_CHANGE, framing(clause)):
             operations.append("run_shell")
 

@@ -1,0 +1,29 @@
+{
+  "provenance": "Authored synthetic data, including replay of security_v3 authored labels",
+  "replay_source": "old\\additional_datasets\\security_v3",
+  "split_rule": "Wording families and normalized inputs disjoint",
+  "replay_filter": "Only semantic_train_ids of the source model; preserve prior heldout-overlap exclusions",
+  "purpose": "Train mode_head only, never permission labels",
+  "files": {
+    "replay_train.jsonl": {
+      "sha256": "b9aa67d775499040a812591098f1806228c9d567f29267403bc787b51068ef97",
+      "rows": 1218
+    },
+    "replay_validation.jsonl": {
+      "sha256": "5ddf7b41e6d08137c9df61cc5b47259db86e0bff98d60d81e7b6ba781e1cea69",
+      "rows": 252
+    },
+    "test.jsonl": {
+      "sha256": "68ddd8d00633d297e25cfe9a21956126305f9988a4e00ccf685d7cd4d8b98605",
+      "rows": 64
+    },
+    "train.jsonl": {
+      "sha256": "dfacd682a8f98998bbe93d8a7c6c422b0d2ac77b6d3a326b8364343002c069e9",
+      "rows": 128
+    },
+    "validation.jsonl": {
+      "sha256": "ed4ad81dd10fd4f0fef959a283453029974dab3d7237b38e3acea9b82a360e27",
+      "rows": 64
+    }
+  }
+}

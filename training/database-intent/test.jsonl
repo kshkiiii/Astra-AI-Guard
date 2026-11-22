@@ -1,0 +1,24 @@
+{"text": "Удали базу данных users (dev)", "operation": "delete_resource", "mode": "execute", "split": "test", "family_id": "database-test-0", "provenance": "authored synthetic database deletion"}
+{"text": "Удали базу данных users (production)", "operation": "delete_resource", "mode": "execute", "split": "test", "family_id": "database-test-0", "provenance": "authored synthetic database deletion"}
+{"text": "Удали базу данных archive (dev)", "operation": "delete_resource", "mode": "execute", "split": "test", "family_id": "database-test-0", "provenance": "authored synthetic database deletion"}
+{"text": "Удали базу данных archive (production)", "operation": "delete_resource", "mode": "execute", "split": "test", "family_id": "database-test-0", "provenance": "authored synthetic database deletion"}
+{"text": "Срочно сотри БД users в dev", "operation": "delete_resource", "mode": "execute", "split": "test", "family_id": "database-test-1", "provenance": "authored synthetic database deletion"}
+{"text": "Срочно сотри БД users в production", "operation": "delete_resource", "mode": "execute", "split": "test", "family_id": "database-test-1", "provenance": "authored synthetic database deletion"}
+{"text": "Срочно сотри БД archive в dev", "operation": "delete_resource", "mode": "execute", "split": "test", "family_id": "database-test-1", "provenance": "authored synthetic database deletion"}
+{"text": "Срочно сотри БД archive в production", "operation": "delete_resource", "mode": "execute", "split": "test", "family_id": "database-test-1", "provenance": "authored synthetic database deletion"}
+{"text": "Now delete database users (dev)", "operation": "delete_resource", "mode": "execute", "split": "test", "family_id": "database-test-2", "provenance": "authored synthetic database deletion"}
+{"text": "Now delete database users (production)", "operation": "delete_resource", "mode": "execute", "split": "test", "family_id": "database-test-2", "provenance": "authored synthetic database deletion"}
+{"text": "Now delete database archive (dev)", "operation": "delete_resource", "mode": "execute", "split": "test", "family_id": "database-test-2", "provenance": "authored synthetic database deletion"}
+{"text": "Now delete database archive (production)", "operation": "delete_resource", "mode": "execute", "split": "test", "family_id": "database-test-2", "provenance": "authored synthetic database deletion"}
+{"text": "DROP DATABASE IF EXISTS \"users\"; -- dev", "operation": "delete_resource", "mode": "execute", "split": "test", "family_id": "database-test-3", "provenance": "authored synthetic database deletion"}
+{"text": "DROP DATABASE IF EXISTS \"users\"; -- production", "operation": "delete_resource", "mode": "execute", "split": "test", "family_id": "database-test-3", "provenance": "authored synthetic database deletion"}
+{"text": "DROP DATABASE IF EXISTS \"archive\"; -- dev", "operation": "delete_resource", "mode": "execute", "split": "test", "family_id": "database-test-3", "provenance": "authored synthetic database deletion"}
+{"text": "DROP DATABASE IF EXISTS \"archive\"; -- production", "operation": "delete_resource", "mode": "execute", "split": "test", "family_id": "database-test-3", "provenance": "authored synthetic database deletion"}
+{"text": "/* environment: dev */", "operation": "none", "mode": "informational", "split": "test", "family_id": "database-negative-test-0", "provenance": "authored nonexecuting environment metadata"}
+{"text": "/* environment: production */", "operation": "none", "mode": "informational", "split": "test", "family_id": "database-negative-test-0", "provenance": "authored nonexecuting environment metadata"}
+{"text": "/* environment: staging */", "operation": "none", "mode": "informational", "split": "test", "family_id": "database-negative-test-0", "provenance": "authored nonexecuting environment metadata"}
+{"text": "/* environment: test */", "operation": "none", "mode": "informational", "split": "test", "family_id": "database-negative-test-0", "provenance": "authored nonexecuting environment metadata"}
+{"text": "Только имя окружения: dev", "operation": "none", "mode": "informational", "split": "test", "family_id": "database-negative-test-1", "provenance": "authored nonexecuting environment metadata"}
+{"text": "Только имя окружения: production", "operation": "none", "mode": "informational", "split": "test", "family_id": "database-negative-test-1", "provenance": "authored nonexecuting environment metadata"}
+{"text": "Только имя окружения: staging", "operation": "none", "mode": "informational", "split": "test", "family_id": "database-negative-test-1", "provenance": "authored nonexecuting environment metadata"}
+{"text": "Только имя окружения: test", "operation": "none", "mode": "informational", "split": "test", "family_id": "database-negative-test-1", "provenance": "authored nonexecuting environment metadata"}

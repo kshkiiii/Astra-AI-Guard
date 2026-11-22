@@ -1,0 +1,14 @@
+{
+  "repo": "QuantFactory/Qwen3Guard-Gen-0.6B-GGUF",
+  "revision": "be4e562404e1bd6d6e01bed9c5fcf1ddb4a6c6aa",
+  "upstream": "Qwen/Qwen3Guard-Gen-0.6B",
+  "license": "Apache-2.0",
+  "files": [
+    {
+      "url": "https://huggingface.co/QuantFactory/Qwen3Guard-Gen-0.6B-GGUF/resolve/be4e562404e1bd6d6e01bed9c5fcf1ddb4a6c6aa/Qwen3Guard-Gen-0.6B.Q8_0.gguf",
+      "bytes": 804753408,
+      "sha256": "a5108bc29824fbe805d4674cf8af438bb7221186c2fa940175a8dfdda4a8d2cc",
+      "path": "artifacts\\semantic\\qwen3guard\\Qwen3Guard-Gen-0.6B.Q8_0.gguf"
+    }
+  ]
+}

@@ -74,7 +74,7 @@ def create_app(settings: Settings | None = None, service_factory=GuardService.lo
         try:
             return await call_next(request)
         except Exception as exc:
-            # Catch before ServerErrorMiddleware/Uvicorn can log raw exceptions.
+
             logger.error("Request failed: %s", type(exc).__name__)
             return JSONResponse({"error": "service_unavailable"}, status_code=503)
 
@@ -90,7 +90,7 @@ def create_app(settings: Settings | None = None, service_factory=GuardService.lo
 
     @app.exception_handler(RequestValidationError)
     async def invalid_request(_request: Request, exc: RequestValidationError):
-        # FastAPI's default error includes rejected input (potentially secrets).
+
         errors = [{"loc": error["loc"], "type": error["type"], "msg": error["msg"]} for error in exc.errors()]
         return JSONResponse({"error": "invalid_request", "details": errors}, status_code=422)
 
@@ -109,7 +109,7 @@ def create_app(settings: Settings | None = None, service_factory=GuardService.lo
 
     @app.post("/v1/check", response_model=CheckResponse, tags=["guard"])
     def check(payload: CheckRequest):
-        """Независимая проверка: не передаёт запрос агенту и не накапливает историю."""
+
         return service().check(payload)
 
     @app.get("/v1/audit", tags=["audit"])
@@ -118,7 +118,7 @@ def create_app(settings: Settings | None = None, service_factory=GuardService.lo
               user_role: Annotated[str | None, Query(max_length=128)] = None,
               category: Annotated[str | None, Query(max_length=128)] = None,
               since: datetime | None = None, until: datetime | None = None):
-        """Метаданные без исходных текстов, имён пользователей и системных промптов."""
+
         def utc(value):
             return value.replace(tzinfo=value.tzinfo or timezone.utc).astimezone(timezone.utc).isoformat() if value else None
         if since and until and utc(since) > utc(until):
@@ -128,14 +128,14 @@ def create_app(settings: Settings | None = None, service_factory=GuardService.lo
 
     if settings.demo_enabled:
         def identity(role: str) -> dict:
-            # Deliberately selectable demo identities, not production authentication.
+
             if role not in {"developer", "sre", "admin"}:
                 raise HTTPException(401, detail={"error": "unknown_demo_user"})
             return {"user_id": f"demo-{role}", "user_role": role, "target_agent": "it_ops_agent"}
 
         @app.post("/v1/demo/requests", response_model=DemoResponse, tags=["demo"])
         def submit(payload: DemoRequest, demo_user: Annotated[str, Header(alias="X-Demo-User")]):
-            """Роль задаётся демо-профилем developer/sre/admin; body не может её переопределить."""
+
             context = identity(demo_user)
             request = CheckRequest(user_prompt=payload.user_prompt, context={
                 **context, "history": payload.history, "attachments": payload.attachments})
@@ -144,7 +144,7 @@ def create_app(settings: Settings | None = None, service_factory=GuardService.lo
         @app.post("/v1/demo/confirmations/{token}", response_model=DemoResponse, tags=["demo"])
         def confirm(token: str, payload: Confirmation,
                     demo_user: Annotated[str, Header(alias="X-Demo-User")]):
-            """Явное подтверждение сохранённого запроса тем же демо-пользователем."""
+
             return service().confirm(token, identity(demo_user)["user_id"])
 
     from api.management import register_management

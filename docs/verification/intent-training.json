@@ -1,0 +1,132 @@
+{
+  "before": {
+    "validation": {
+      "n": 64,
+      "correct": 35,
+      "accuracy": 0.546875,
+      "execution_as_information": 0,
+      "information_as_execution": 29
+    },
+    "regression": {
+      "n": 252,
+      "correct": 252,
+      "accuracy": 1.0,
+      "execution_as_information": 0,
+      "information_as_execution": 0
+    },
+    "test": {
+      "n": 64,
+      "correct": 48,
+      "accuracy": 0.75,
+      "execution_as_information": 0,
+      "information_as_execution": 16
+    }
+  },
+  "after": {
+    "validation": {
+      "n": 64,
+      "correct": 43,
+      "accuracy": 0.671875,
+      "execution_as_information": 0,
+      "information_as_execution": 21
+    },
+    "regression": {
+      "n": 252,
+      "correct": 252,
+      "accuracy": 1.0,
+      "execution_as_information": 0,
+      "information_as_execution": 0
+    },
+    "test": {
+      "n": 64,
+      "correct": 58,
+      "accuracy": 0.90625,
+      "execution_as_information": 0,
+      "information_as_execution": 6
+    }
+  },
+  "selected": {
+    "prior_strength": 1.0,
+    "validation": {
+      "n": 64,
+      "correct": 43,
+      "accuracy": 0.671875,
+      "execution_as_information": 0,
+      "information_as_execution": 21
+    },
+    "regression": {
+      "n": 252,
+      "correct": 252,
+      "accuracy": 1.0,
+      "execution_as_information": 0,
+      "information_as_execution": 0
+    }
+  },
+  "candidates": [
+    {
+      "prior_strength": 1.0,
+      "validation": {
+        "n": 64,
+        "correct": 43,
+        "accuracy": 0.671875,
+        "execution_as_information": 0,
+        "information_as_execution": 21
+      },
+      "regression": {
+        "n": 252,
+        "correct": 252,
+        "accuracy": 1.0,
+        "execution_as_information": 0,
+        "information_as_execution": 0
+      }
+    },
+    {
+      "prior_strength": 4.0,
+      "validation": {
+        "n": 64,
+        "correct": 39,
+        "accuracy": 0.609375,
+        "execution_as_information": 0,
+        "information_as_execution": 25
+      },
+      "regression": {
+        "n": 252,
+        "correct": 252,
+        "accuracy": 1.0,
+        "execution_as_information": 0,
+        "information_as_execution": 0
+      }
+    },
+    {
+      "prior_strength": 16.0,
+      "validation": {
+        "n": 64,
+        "correct": 39,
+        "accuracy": 0.609375,
+        "execution_as_information": 0,
+        "information_as_execution": 25
+      },
+      "regression": {
+        "n": 252,
+        "correct": 250,
+        "accuracy": 0.9920634920634921,
+        "execution_as_information": 2,
+        "information_as_execution": 0
+      }
+    }
+  ],
+  "train_n": 1346,
+  "data_sha256": {
+    "replay_train.jsonl": "b9aa67d775499040a812591098f1806228c9d567f29267403bc787b51068ef97",
+    "replay_validation.jsonl": "5ddf7b41e6d08137c9df61cc5b47259db86e0bff98d60d81e7b6ba781e1cea69",
+    "test.jsonl": "68ddd8d00633d297e25cfe9a21956126305f9988a4e00ccf685d7cd4d8b98605",
+    "train.jsonl": "dfacd682a8f98998bbe93d8a7c6c422b0d2ac77b6d3a326b8364343002c069e9",
+    "validation.jsonl": "ed4ad81dd10fd4f0fef959a283453029974dab3d7237b38e3acea9b82a360e27"
+  },
+  "source_sha256": "8a8e9fefbb501a98aeb041d27c9b1bf14d2592ddb3c7041cbdd62fd886a3c43a",
+  "changed": "mode_head weights only; encoder, vocabulary, operations and threat heads frozen",
+  "note": "Authored synthetic data; families disjoint; test not used for selection. Not an independent benchmark.",
+  "output_bytes": 2945130,
+  "source_bytes": 2943284,
+  "output_sha256": "cadcfc1ce37b7958c141f6e2d308dc7c38f52e0843a1a4e69379561290f21396"
+}

@@ -1,0 +1,187 @@
+{
+  "format_version": 1,
+  "download_base": "https://media.githubusercontent.com/media/kshkiiii/-------/main",
+  "raw_base": "https://raw.githubusercontent.com/kshkiiii/-------/main",
+  "files": {
+    "artifacts/encoders/multilingual-e5-small/manifest.json": {
+      "bytes": 1055,
+      "sha256": "f8a6ddfa5ecd2d600c52aefa3ebb886dd0ab1fe956dbbd5cb3076b66c3f0a717",
+      "lfs": false
+    },
+    "artifacts/encoders/multilingual-e5-small/model_qint8_avx512_vnni.onnx": {
+      "bytes": 118346824,
+      "sha256": "dd476dd0c2514e9b9be83aeb3853fac0763e0bdf4a71645407587d77c48a2d88",
+      "lfs": true
+    },
+    "artifacts/encoders/multilingual-e5-small/tokenizer.json": {
+      "bytes": 17082730,
+      "sha256": "0b44a9d7b51c3c62626640cda0e2c2f70fdacdc25bbbd68038369d14ebdf4c39",
+      "lfs": true
+    },
+    "artifacts/llama.cpp/b12606/ggml-base.dll": {
+      "bytes": 840704,
+      "sha256": "3142d5e5e24a2ae3557f8feeb1388d36ee29ad46ba3338856ba2784a859597ae",
+      "lfs": true
+    },
+    "artifacts/llama.cpp/b12606/ggml-cpu-alderlake.dll": {
+      "bytes": 1496576,
+      "sha256": "3ec095701397555c3fd41563d07f0d4acbb06db34a8f7b25f45057bdb98c2dae",
+      "lfs": true
+    },
+    "artifacts/llama.cpp/b12606/ggml-cpu-cannonlake.dll": {
+      "bytes": 1731584,
+      "sha256": "1aa16208b409b46266d22ef560974c61d8288ded0c534242530e62df735f9210",
+      "lfs": true
+    },
+    "artifacts/llama.cpp/b12606/ggml-cpu-cascadelake.dll": {
+      "bytes": 1700352,
+      "sha256": "0103b491e6a12608a4d0733e88660c49240551a2f7d15c4220470c6f2e038970",
+      "lfs": true
+    },
+    "artifacts/llama.cpp/b12606/ggml-cpu-cooperlake.dll": {
+      "bytes": 1709568,
+      "sha256": "c54a85f961d550a08f9edcbc07180f99188b188d81e6de52a5b2c3bbe1a66bc1",
+      "lfs": true
+    },
+    "artifacts/llama.cpp/b12606/ggml-cpu-haswell.dll": {
+      "bytes": 1503232,
+      "sha256": "fb6cbe2fb9ed5fda47b83e7e7ed22e3602bd6b5b29b7478c8857827fbff3063c",
+      "lfs": true
+    },
+    "artifacts/llama.cpp/b12606/ggml-cpu-icelake.dll": {
+      "bytes": 1709056,
+      "sha256": "83e57df06525ba8ba63becbd1a18ac934ac185d7060dd9b9e043990e48f361ba",
+      "lfs": true
+    },
+    "artifacts/llama.cpp/b12606/ggml-cpu-ivybridge.dll": {
+      "bytes": 1370624,
+      "sha256": "280b52569b0da9f3b284f2897f6d982b38924df9dfcaeb6a21b388a7ee0578d0",
+      "lfs": true
+    },
+    "artifacts/llama.cpp/b12606/ggml-cpu-piledriver.dll": {
+      "bytes": 1365504,
+      "sha256": "16da070f89556684d31d241a60a4a5d019da1bc4548a16fd8b0f471b179bd339",
+      "lfs": true
+    },
+    "artifacts/llama.cpp/b12606/ggml-cpu-sandybridge.dll": {
+      "bytes": 1340416,
+      "sha256": "1b4eb9ee95b230233d722eef192852ab2bae14836ebf17c865ce112455bb8870",
+      "lfs": true
+    },
+    "artifacts/llama.cpp/b12606/ggml-cpu-sapphirerapids.dll": {
+      "bytes": 1988608,
+      "sha256": "01508df1a28c401d01c35ed6a824b69000f25f3dcd95b76b8ecf261c54416634",
+      "lfs": true
+    },
+    "artifacts/llama.cpp/b12606/ggml-cpu-skylakex.dll": {
+      "bytes": 1722880,
+      "sha256": "e46e54b12c60949cef732354c985c7ff66830fb024b7f15c9d76fe2a8e271561",
+      "lfs": true
+    },
+    "artifacts/llama.cpp/b12606/ggml-cpu-sse42.dll": {
+      "bytes": 963584,
+      "sha256": "ee28850ff8e69d0ab15741695b56c97d3b3927253fb06a9fb2cb7abbc20177b9",
+      "lfs": true
+    },
+    "artifacts/llama.cpp/b12606/ggml-cpu-x64.dll": {
+      "bytes": 956928,
+      "sha256": "91ea49353c4aea6d600cb4842e335828f5035fb7521a9e711a2d8bf280967e66",
+      "lfs": true
+    },
+    "artifacts/llama.cpp/b12606/ggml-cpu-zen4.dll": {
+      "bytes": 1718272,
+      "sha256": "8417ef71b64cab77104332d91fbf6a6790951ed07b9444f959776c667fcb0d32",
+      "lfs": true
+    },
+    "artifacts/llama.cpp/b12606/ggml-rpc.dll": {
+      "bytes": 234496,
+      "sha256": "fcdeadf18e315bebdcc9cbd3873d6ce6ea7e68174514e7d5cff138d85d9be5d2",
+      "lfs": true
+    },
+    "artifacts/llama.cpp/b12606/ggml.dll": {
+      "bytes": 78848,
+      "sha256": "2dcc36ec7bf96f48206679124fe875c2a8f3e86a4c0438ac17bb6fc24122369d",
+      "lfs": true
+    },
+    "artifacts/llama.cpp/b12606/libomp.dll": {
+      "bytes": 856064,
+      "sha256": "1e4222f195d84e7355109d778e751dfe3c085e42c947f7fe3d7853181329dd40",
+      "lfs": true
+    },
+    "artifacts/llama.cpp/b12606/LICENSE-LLVM-OpenMP": {
+      "bytes": 19741,
+      "sha256": "fdad1758a9e1f9d5a81e18879b3406772115edc92c24bfa36b70c654f325e8e4",
+      "lfs": false
+    },
+    "artifacts/llama.cpp/b12606/llama-common.dll": {
+      "bytes": 8622592,
+      "sha256": "a5d1258ba96f061772f4cf5cdefb3e45e2d38a5412b8343063d4689c80099e2d",
+      "lfs": true
+    },
+    "artifacts/llama.cpp/b12606/llama-server-impl.dll": {
+      "bytes": 9830400,
+      "sha256": "1d2f85afd4cfd9fb0d71ecdadd43bb503d40eead02243e04c6b36f8a20f87b97",
+      "lfs": true
+    },
+    "artifacts/llama.cpp/b12606/llama-server.exe": {
+      "bytes": 10240,
+      "sha256": "3f174185d1af380f434d674eb7df396a9c6246c7c3ea42379c46cdbf690ad784",
+      "lfs": true
+    },
+    "artifacts/llama.cpp/b12606/llama.dll": {
+      "bytes": 3974656,
+      "sha256": "0110ca93c47629bf5c41a30bb8b4232f3ddc720771a0727b463941505602737e",
+      "lfs": true
+    },
+    "artifacts/llama.cpp/b12606/manifest.json": {
+      "bytes": 325,
+      "sha256": "bb75bfc79ac63c7ab326f111b004137234f3f75ea6afb94f4dd28948acc72b23",
+      "lfs": false
+    },
+    "artifacts/llama.cpp/b12606/mtmd.dll": {
+      "bytes": 3000320,
+      "sha256": "e0ef98b8cd2790e97e1f10681835ff7fa4376f7bd49c87cfd279b6203efa47bc",
+      "lfs": true
+    },
+    "artifacts/model.joblib": {
+      "bytes": 1946559,
+      "sha256": "733df33783734fa0e9020d55ac50b91c12459fedc3baa106ca33409c2d87f8fb",
+      "lfs": true
+    },
+    "artifacts/semantic/context-scope-v2/manifest.json": {
+      "bytes": 655,
+      "sha256": "1cfe31767be84389ede6d9f9ff5d4cc93b2e62485eb5810dfc6f1e8c8451fd4a",
+      "lfs": false
+    },
+    "artifacts/semantic/context-scope-v2/model.compact.onnx": {
+      "bytes": 235109239,
+      "sha256": "05f04fd45d781ba6467e44bb7f37e5cfdefca844896e9bf778ad4a6039d81592",
+      "lfs": true
+    },
+    "artifacts/semantic/context-scope-v2/tokenizer.json": {
+      "bytes": 17082832,
+      "sha256": "e63c7a5faf7f3257542d756311f64572a52913c2845c4a3849529e1ef87f8eef",
+      "lfs": true
+    },
+    "artifacts/semantic/qwen3guard/manifest.json": {
+      "bytes": 570,
+      "sha256": "4657472f69cc478a7af648d3e1fc7bda0a0a5f3333963abab6c3a105c80e3c13",
+      "lfs": false
+    },
+    "artifacts/semantic/qwen3guard/Qwen3Guard-Gen-0.6B.Q8_0.gguf": {
+      "bytes": 804753408,
+      "sha256": "a5108bc29824fbe805d4674cf8af438bb7221186c2fa940175a8dfdda4a8d2cc",
+      "lfs": true
+    },
+    "artifacts/semantic/threat-refresh-v2/model.joblib": {
+      "bytes": 2409073,
+      "sha256": "441910fe3f5351816f6976ad096f7b3103837dd2f607834e9d7c6fcb66c8ae35",
+      "lfs": true
+    },
+    "artifacts/semantic_security.joblib": {
+      "bytes": 2946500,
+      "sha256": "45f9b0be5bc7f37426ff176a930e8b9459f2de84e2e1e91f53bf84d252dcfffc",
+      "lfs": true
+    }
+  }
+}

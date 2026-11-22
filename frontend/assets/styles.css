@@ -1414,8 +1414,7 @@ fieldset:disabled summary {
     scroll-behavior:auto!important;
   }
 }
-/* Reading sizes for the working interface;
-smaller text is reserved for metadata. */
+
 .page-heading p,.explanation,.dialog-description {
   font-size:1rem;
 }

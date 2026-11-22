@@ -1,4 +1,3 @@
-"""Check requests or an archived test split with the current backend."""
 from __future__ import annotations
 
 import argparse

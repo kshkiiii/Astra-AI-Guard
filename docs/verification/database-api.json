@@ -1,0 +1,52 @@
+{
+  "prompt": "удали базу данных users (dev)",
+  "results": [
+    {
+      "role": "developer",
+      "decision": "block",
+      "intent": [
+        {
+          "operation": "delete_resource",
+          "object": "users",
+          "environment": "nonprod",
+          "secrets": "none",
+          "mode": "execute",
+          "source": "current_user",
+          "confidence": 1.0
+        }
+      ]
+    },
+    {
+      "role": "sre",
+      "decision": "confirm",
+      "intent": [
+        {
+          "operation": "delete_resource",
+          "object": "users",
+          "environment": "nonprod",
+          "secrets": "none",
+          "mode": "execute",
+          "source": "current_user",
+          "confidence": 1.0
+        }
+      ]
+    },
+    {
+      "role": "admin",
+      "decision": "confirm",
+      "intent": [
+        {
+          "operation": "delete_resource",
+          "object": "users",
+          "environment": "nonprod",
+          "secrets": "none",
+          "mode": "execute",
+          "source": "current_user",
+          "confidence": 1.0
+        }
+      ]
+    }
+  ],
+  "real_moderator": true,
+  "model_sha256": "45f9b0be5bc7f37426ff176a930e8b9459f2de84e2e1e91f53bf84d252dcfffc"
+}

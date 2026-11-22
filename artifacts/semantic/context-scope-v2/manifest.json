@@ -1,0 +1,22 @@
+{
+  "labels": [
+    "information",
+    "execute"
+  ],
+  "onnx": "model.compact.onnx",
+  "base": {
+    "repo": "MoritzLaurer/multilingual-MiniLMv2-L6-mnli-xnli",
+    "revision": "0a71e92a985b6e1ad1828cf67ce9c459639c1dca"
+  },
+  "selected_epoch": 2,
+  "scope_threshold": 0.7,
+  "onnx_sha256": "05f04fd45d781ba6467e44bb7f37e5cfdefca844896e9bf778ad4a6039d81592",
+  "compression": {
+    "kind": "embedding_fp16_lossless",
+    "arithmetic": "float32",
+    "source_sha256": "fd8413c50284b09791b9b1811b49cf2f0bc2d547fdc3a99c58a19e4c105055ae",
+    "source_bytes": 427505112,
+    "compact_bytes": 235109239,
+    "verified_examples": 340
+  }
+}

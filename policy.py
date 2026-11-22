@@ -23,7 +23,7 @@ def execution_requested(text: str) -> bool:
         r"(?:(?:пожалуйста|срочно|теперь|сейчас|please|now|first)\s+)?"
         r"(?:выполни|запусти|перезапусти|удали|отключи|очисти|сбрось|масштабируй|откати|"
         r"покажи|выведи|дай|распечатай|прочитай|добавь|пропиши|измени|внеси|запиши|закоммить|запушь|отправь|перешли|загрузи|"
-        r"дропни|drop|добейся|обеспечь|убери|сотри|уничтожь|ликвидируй|верни|прекрати|останови|пересоздай|выдай|поделись|достань|сделай|"
+        r"дропни|drop|truncate|добейся|обеспечь|убери|сотри|уничтожь|ликвидируй|верни|прекрати|останови|пересоздай|выдай|поделись|достань|сделай|"
         r"игнорируй|забудь|отмени|ignore|disregard|override|"
         r"run|execute|restart|delete|remove|disable|flush|show|print|dump|give|list|read|get|"
         r"add|append|send|forward|upload|perform|do)\b", unquoted)
@@ -236,7 +236,9 @@ class SecurityPolicy:
                 result.append(tool)
 
 
-        from request_analysis import READ, LOGS
+        from request_analysis import READ, LOGS, database_deletions
+        if "delete_resource" not in result and database_deletions(text):
+            result.append("delete_resource")
         if "read_logs" not in result and any(re.search(READ, clause) and re.search(LOGS, clause)
                                              for clause in re.split(r"[;\n]", text)):
             result.append("read_logs")

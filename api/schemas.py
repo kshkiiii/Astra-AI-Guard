@@ -11,7 +11,7 @@ Name = Annotated[str, Field(min_length=1, max_length=128)]
 
 
 class InputModel(BaseModel):
-    # Dataset metadata and unknown fields must never become model features.
+
     model_config = ConfigDict(strict=True, extra="ignore")
 
 
