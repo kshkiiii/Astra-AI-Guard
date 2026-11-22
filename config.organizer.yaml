@@ -1,0 +1,33 @@
+text:
+  decode_base64: true
+  normalize_homoglyphs: true
+  normalize_leetspeak: true
+  chunk_size: 3000
+  chunk_overlap: 300
+  max_input_chars: 200000
+model:
+  attack_threshold: 0.35
+guard:
+  backend: context
+  layered: true
+  attack_threshold: null
+  operation_threshold: 0.35
+  legacy_attack_threshold: 0.35
+  legacy_rescue_threshold: 0.1
+moderator:
+  binary: artifacts/llama.cpp/b12606/llama-server.exe
+  model: artifacts/semantic/qwen3guard/Qwen3Guard-Gen-0.6B.Q8_0.gguf
+  model_name: qwen3guard-0.6b
+  endpoint: http://127.0.0.1:18082
+  context_tokens: 4096
+  max_input_chars: 12000
+  threads: 8
+  timeout_seconds: 8
+  startup_timeout_seconds: 60
+paths:
+  baseline_model: artifacts/model.joblib
+  context_model: artifacts/semantic/context-scope-v2
+  model: artifacts/semantic/threat-refresh-v2/model.joblib
+  encoder: artifacts/encoders/multilingual-e5-small
+  semantic_security: artifacts/semantic_security.joblib
+  policy: organizer_policy.yaml

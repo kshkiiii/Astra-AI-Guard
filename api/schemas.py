@@ -52,6 +52,13 @@ class CheckResult(BaseModel):
     intent: list[dict] = Field(default_factory=list)
     checks: list[dict] = Field(default_factory=list)
     backend: str = "layered"
+    intent_total: int = 0
+    details_truncated: bool = False
+
+    @field_validator("intent", mode="after")
+    @classmethod
+    def bound_intent(cls, value):
+        return value[:32]
 
 
 class CheckResponse(CheckResult):

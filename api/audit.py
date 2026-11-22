@@ -47,11 +47,17 @@ class AuditLog:
                     :decision, :risk_category, :risk_level, :latency_ms, :policy_version)
             """, entry)
 
-    def recent(self, limit: int = 50, before: int | None = None, decision: str | None = None) -> list[dict]:
+    def recent(self, limit: int = 50, before: int | None = None, decision: str | None = None,
+               user_role=None, category=None, since=None, until=None) -> list[dict]:
         with self._connect() as connection:
             rows = connection.execute("""
                 SELECT * FROM events WHERE (? IS NULL OR id < ?)
                     AND (? IS NULL OR decision = ?)
+                    AND (? IS NULL OR user_role = ?)
+                    AND (? IS NULL OR risk_category = ?)
+                    AND (? IS NULL OR timestamp >= ?)
+                    AND (? IS NULL OR timestamp <= ?)
                 ORDER BY id DESC LIMIT ?
-            """, (before, before, decision, decision, limit)).fetchall()
+            """, (before, before, decision, decision, user_role, user_role, category, category,
+                    since, since, until, until, limit)).fetchall()
         return [dict(row) for row in rows]

@@ -84,7 +84,7 @@ async function api(path, options = {}) {
 function post(path, data, role) {
   return api(path, {
     method: "POST",
-    headers: { "Content-Type": "application/json", ...(role ? { "X-Demo-User": role } : {}) },
+    headers: { "Content-Type": "application/json", "X-Guard-Client": "web", ...(role ? { "X-Demo-User": role } : {}) },
     body: JSON.stringify(data),
   });
 }
@@ -98,6 +98,14 @@ function setBusy(busy) {
   $("#close-dialog").disabled = busy;
   $("#cancel-confirmation").disabled = busy;
   $("#confirmation-consent").disabled = busy;
+  for (const id of ["session-select", "new-session", "session-legitimate", "session-attack"]) {
+    const node = $(`#${id}`);
+    if (node) node.disabled = busy || !state.demoEnabled;
+  }
+  for (const id of ["clear-session", "delete-session"]) {
+    const node = $(`#${id}`);
+    if (node) node.disabled = busy || !state.session;
+  }
   updateConfirmation();
 }
 
@@ -195,7 +203,9 @@ async function run(mode) {
   renderEmpty(false, true);
   try {
     let result;
-    if (mode === "send") {
+    if (state.session) {
+      result = await sessionRequest(saved, mode);
+    } else if (mode === "send") {
       result = await post("/v1/demo/requests", saved.body, saved.role);
     } else {
       const checked = await post("/v1/check", {
@@ -206,7 +216,7 @@ async function run(mode) {
     }
     if (revision !== state.revision) return;
     if (result.status === "pending_confirmation") {
-      state.pending = { token: result.confirmation_token, expires: Date.parse(result.expires_at), revision, saved };
+      state.pending = { token: result.confirmation_token, expires: Date.parse(result.expires_at), revision, saved, sessionId: state.session?.id };
     }
     state.result = result;
     renderResult(result);
@@ -243,10 +253,12 @@ function renderResult(result) {
   const metrics = element("dl", "result-metrics");
   metrics.append(metric("Уровень риска", riskNames[check.risk_level] || check.risk_level),
     metric("Время проверки", `${check.latency_ms.toLocaleString("ru-RU", { maximumFractionDigits: 1 })} мс`),
-    metric("Вероятность атаки", `${(check.attack_probability * 100).toLocaleString("ru-RU", { maximumFractionDigits: 1 })}%`),
+    metric("Оценка детектора", `${(check.attack_probability * 100).toLocaleString("ru-RU", { maximumFractionDigits: 1 })}%`),
     metric("Версия политики", String(check.policy_version)),
     metric("Категория", check.risk_category, "category-code"));
   content.append(metrics);
+  if (check.details_truncated) content.append(element("p", "muted", `Проверено действий: ${check.intent_total}. Показана сокращённая диагностика.`));
+  if (result.history_effect) content.append(element("p", "history-effect", result.history_effect));
   const delivery = element("div", `delivery-box${result.status === "delivered" ? " delivered" : ""}`);
   if (result.status === "delivered") {
     delivery.append(element("strong", "", "Демо-агент получил запрос"), element("p", "", "Получение зафиксировано квитанцией. Команды не выполняются."));
@@ -307,7 +319,7 @@ async function confirmRequest() {
   $("#confirm-button").textContent = "Передаём запрос…";
   message("#confirmation-error", "");
   try {
-    const result = await post(`/v1/demo/confirmations/${encodeURIComponent(pending.token)}`, { confirmed: true }, pending.saved.role);
+    const result = await post(pending.sessionId ? `/v1/sessions/${pending.sessionId}/confirm/${encodeURIComponent(pending.token)}` : `/v1/demo/confirmations/${encodeURIComponent(pending.token)}`, { confirmed: true }, pending.sessionId ? null : pending.saved.role);
     state.pending = null;
     state.result = result;
     $("#confirmation-dialog").close();
@@ -349,7 +361,7 @@ function renderAudit() {
     category.append(element("span", "category-code", item.risk_category));
     row.append(timestamp, element("td", "", item.user_role), decision, category,
       element("td", "", `${item.latency_ms.toLocaleString("ru-RU", { maximumFractionDigits: 1 })} мс`),
-      element("td", "event-text", eventNames[item.event] || item.event));
+      element("td", "event-text", eventNames[item.event] || item.event), element("td", "", `v${item.policy_version}`));
     return row;
   });
   $("#audit-rows").replaceChildren(...rows);
@@ -368,6 +380,10 @@ async function loadAudit(reset = true) {
   try {
     const query = new URLSearchParams({ limit: "50" });
     if (state.filter) query.set("decision", state.filter);
+    for (const [name, id] of [["user_role","role"],["category","category"],["since","since"],["until","until"]]) {
+      const value = $(`#audit-${id}`).value;
+      if (value) query.set(name, id === "since" || id === "until" ? new Date(value).toISOString() : value);
+    }
     if (!reset && state.cursor) query.set("before", String(state.cursor));
     const response = await api(`/v1/audit?${query}`);
     state.audit = reset ? response.items : [...state.audit, ...response.items];
@@ -397,6 +413,7 @@ function navigate() {
     else link.removeAttribute("aria-current");
   }
   if (page === "audit") loadAudit(true);
+  if (page === "policy" && typeof loadPolicy === "function") loadPolicy();
 }
 
 $("#request-form").addEventListener("submit", event => { event.preventDefault(); run("check"); });
@@ -429,7 +446,8 @@ const examples = {
 $$("[data-example]").forEach(button => button.addEventListener("click", () => {
   const example = examples[button.dataset.example];
   $("#prompt").value = example.prompt;
-  $(`input[name=role][value=${example.role}]`).checked = true;
+  if (state.session && state.session.role !== example.role) showRoleSessionError();
+  else $(`input[name=role][value=${example.role}]`).checked = true;
   invalidate();
 }));
 window.addEventListener("hashchange", navigate);

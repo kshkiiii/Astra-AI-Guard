@@ -60,6 +60,19 @@ def literal_injection(text, source, *, information_exception=True):
     return any(re.search(pattern, normalized, flags=re.S) for pattern in patterns)
 
 
+def injection_category(text):
+    text = normalize(text)
+    if re.search(r"(?:user_role|мою роль|моя роль|my role).{0,70}(?:админ|admin)|(?:повыс|elevate).{0,40}(?:прав|privileg)", text):
+        return "privilege_escalation"
+    if re.search(r"(?:считай|это|новое).{0,25}(?:системн\w* сообщен|system message)|(?:подмени|замени).{0,40}(?:системн\w*|system)", text):
+        return "system_prompt_override"
+    if re.search(r"игнорируй|ignore|disregard|забудь.{0,20}инструкц", text):
+        return "prompt_injection"
+    if re.search(r"системн\w* промпт|system prompt|hidden.{0,20}instructions|скрыт\w* инструкц", text):
+        return "system_prompt_extraction"
+    return "prompt_injection"
+
+
 def legacy_evidence(text):
 
 
@@ -131,7 +144,7 @@ class LayeredInspector:
 
             directive = (view_source == "attachment" and re.search(r"для (?:бота|ассистента)|(?:run_shell|restart_service|delete_resource)\s*\(", text))
             if literal_injection(text, view_source) or (directive and not informational_request(text)):
-                category = "indirect_injection" if view_source == "attachment" else "prompt_injection"
+                category = "indirect_injection" if view_source == "attachment" else injection_category(text)
                 literal = policy._result("block", category, f"В исходном тексте обнаружена попытка подменить инструкции; источник {view_source}.")
                 break
         raw = policy.evaluate(resolved, context, options)

@@ -3,7 +3,7 @@ import re
 
 from text_processing import normalize
 
-QUOTES = re.compile(r'```.*?```|<!--.*?-->|`[^`]*`|«[^»]*»|"[^"\\]*(?:\\.[^"\\]*)*"|\'[^\']*\'', re.S)
+QUOTES = re.compile(r'```.*?```|<!--.*?-->|`[^`]*`|«[^»]*»|"[^"\\]*(?:\\.[^"\\]*)*"|(?<!\w)\'[^\']*\'(?!\w)', re.S)
 
 
 def framing(text):

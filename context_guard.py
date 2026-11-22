@@ -102,8 +102,10 @@ class ContextGuard:
         report_task = bool(re.search(r"отч[её]т.{0,40}(?:статус|доступност)|status report|health report", outer))
         evidence_review = bool(re.search(r"(?:разбер\w*|проанализ\w*|анализ|разбор|review|analy[sz])", outer) and re.search(r"(?:перехвачен|образец|пример|кейс|sample|captured|case study)", outer) and review_evidence)
         structured_scope = (plan_task or rewrite_task or report_task or evidence_review) and not active
+        classification_task = bool(re.search(r"\b(?:classify|categorize)\b.{0,70}(?:string|phrase|instruction)|\bwrite\s+(?:a\s+)?(?:regex|regular expression|bug report)\b|как оформить баг[ -]репорт", outer))
+        structured_scope = structured_scope or (classification_task and not active)
         if structured_scope:
-            review = review_evidence
+            review = review_evidence or classification_task
             information = not review
         outer_anchors = [] if structured_scope else anchored_actions(current if active or observation["execute"] >= .5 else outer, context, self.policy)
         originals = anchored_actions(current, context, self.policy)
@@ -180,8 +182,9 @@ class ContextGuard:
         anchors = outer_anchors or anchored_actions(resolved, context, self.policy)
         if anchors:
             permission = self.policy.evaluate_intents(anchors, context)
-            if permission["decision"] == "block":
+            if permission["decision"] == "block" or result["decision"] == "allow":
                 result.update(permission)
+                result["intent"] = [a.to_dict() for a in anchors]
         raw = self.policy.evaluate(resolved, context, self.config["text"])
         literal = literal_injection(current,"current_user",information_exception=False)
         destructive_bypass = bool(set(self.policy.tools(current)) & set(agent.get("deny_confirmation_bypass_for",[]))) and bool(re.search(r"без (?:подтверждени|согласовани)|without (?:confirmation|approval)",current))

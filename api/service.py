@@ -101,7 +101,16 @@ class GuardService:
                     raise HTTPException(503, detail={"error": "llm_unavailable"}) from None
                 except InferenceBudgetExceeded:
                     raise HTTPException(503,detail={"error":"guard_budget_exceeded"}) from None
-            return CheckResult.model_validate(result)
+            result["intent_total"] = len(result.get("intent", []))
+            result["details_truncated"] = result["intent_total"] > 32
+            result["intent"] = result.get("intent", [])[:32]
+            bounded = CheckResult.model_validate(result)
+            if len(bounded.model_dump_json().encode("utf-8")) > 60_000:
+                bounded.intent = []
+                bounded.checks = []
+                bounded.explanation = bounded.explanation[:2000]
+                bounded.details_truncated = True
+            return bounded
         finally:
             try:
                 self._clear_text_cache(self.guard.model)

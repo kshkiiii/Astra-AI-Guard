@@ -14,6 +14,7 @@ READ = r"\b(?:покаж\w*|показ\w*|прочита\w*|вывед\w*|пос
 LOGS = r"\b(?:лог\w*|журнал\w*|logs?|logfile)\b"
 MUTATE = r"\b(?:дропни|дропнуть|drop|добав\w*|внеси|внести|измени\w*|изменить|исправ\w*|впиши|запиши|записать|закоммит\w*|залей|запуш\w*|закинь|закинуть|удал\w*|убери|отредактир\w*|обнови|влей|вмерж\w*|merge|commit|push|edit|modify|change|add|delete|remove|update)\b"
 REPOSITORY = r"\b(?:ветк\w*|веточк\w*|branch|репозитори\w*|repository|repo)\b|(?:prod|production)[- ]ветк"
+INFRA_CHANGE = r"\b(?:deploy|redeploy|rollout|configure|д[еэ]плой\w*|задеплой\w*|разверни|развернуть|перевыкати|выкати|выкатить)\b|\b(?:поставь|установи|измени|смени|выставь|set|change|update)\b.{0,100}(?:\b[a-z_][a-z_0-9]*\s*=|log_level|настройк|конфигурац|configuration|replicas|реплик)"
 
 
 def assessment_text(text):
@@ -77,6 +78,9 @@ def anchored_actions(text, context, policy):
         objects = re.findall(r"\b\w+(?:[-_]\w+)+\b", clause)
         obj = objects[0] if objects else None
         operations = []
+        from request_framing import framing
+        if re.search(INFRA_CHANGE, framing(clause)):
+            operations.append("run_shell")
 
 
         data_demand = re.match(r"\s*(?:пожалуйста[,\s]+)?(?:мне\s+)?(?:нуж\w*|необходим\w*|требу\w*|дай|покаж\w*|вывед\w*|пришли|предостав\w*|верни)\b", clause)

@@ -27,7 +27,9 @@ def execution_requested(text: str) -> bool:
         r"игнорируй|забудь|отмени|ignore|disregard|override|"
         r"run|execute|restart|delete|remove|disable|flush|show|print|dump|give|list|read|get|"
         r"add|append|send|forward|upload|perform|do)\b", unquoted)
-    return bool(explicit or requested)
+    from request_analysis import INFRA_CHANGE
+    infra = re.search(r"(?:^|[;\n.!?]\s*|\b(?:затем|потом|then|and)\s+)(?:(?:пожалуйста|срочно|теперь|please|now)\s+)?(?:"+INFRA_CHANGE+r")", unquoted)
+    return bool(explicit or requested or infra)
 
 
 def informational_request(text: str) -> bool:
@@ -45,7 +47,7 @@ def educational(text: str) -> bool:
         r"(?:сначала\s+)?(?:объясни|расскажи.{0,20}(?:как работает|что такое)|"
         r"почему\b|что (?:означает|такое)|как\b|разбер[иё]|классифицируй\b|для (?:онбординга|учебного)|"
         r"без (?:выполнения|технических))|"
-        r"(?:first\s+)?(?:explain\b|what (?:is|does)|why\b|how (?:does|to prevent)|"
+        r"(?:first\s+)?(?:classify\b|categorize\b|write\s+(?:a\s+)?(?:regex|regular expression|bug report)\b|explain\b|what (?:is|does)|why\b|how (?:does|to prevent)|"
         r"without (?:executing|technical))", body))
 
 
@@ -59,6 +61,30 @@ def action_text(user_prompt: str, context: dict, options: dict) -> str:
 
 
 class SecurityPolicy:
+    @classmethod
+    def from_text(cls, text, path):
+        if len(text) > 64000:
+            raise ValueError("Политика превышает 64 000 символов")
+        if any(isinstance(token, (yaml.tokens.AliasToken, yaml.tokens.AnchorToken)) for token in yaml.scan(text)):
+            raise ValueError("YAML-якоря и ссылки не поддерживаются")
+        class Loader(yaml.SafeLoader):
+            pass
+        def mapping(loader, node):
+            pairs = loader.construct_pairs(node)
+            result = {}
+            for key, value in pairs:
+                if not isinstance(key, str) or key in result:
+                    raise ValueError("Ключи YAML должны быть строками без повторений")
+                result[key] = value
+            return result
+        Loader.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, mapping)
+        obj = cls.__new__(cls)
+        obj.path = Path(path)
+        obj.rules = yaml.load(text, Loader=Loader)
+        obj._validate()
+        obj.version = obj.rules["version"]
+        return obj
+
     def __init__(self, path: str | Path):
         self.path = Path(path)
         self.rules = yaml.safe_load(self.path.read_text(encoding="utf-8-sig"))
@@ -72,13 +98,30 @@ class SecurityPolicy:
             raise ValueError("Неполная YAML-политика")
         if not isinstance(rules["always_block"], list) or not isinstance(rules["agents"], dict):
             raise ValueError("Некорректные always_block/agents")
+        if type(rules["version"]) is not int or rules["version"] < 1:
+            raise ValueError("Версия должна быть положительным целым числом")
+        categories = {"prompt_injection", "jailbreak", "indirect_injection", "system_prompt_extraction", "system_prompt_override", "privilege_escalation", "data_exfiltration", "harmful_content", "fraud_social_engineering", "abuse"}
+        if not set(rules["always_block"]) <= categories:
+            raise ValueError("Неизвестная категория always_block")
+        if not rules["agents"] or any(not re.fullmatch(r"[a-zA-Z0-9_-]{1,128}", n) for n in rules["agents"]):
+            raise ValueError("Нужен агент с корректным идентификатором")
         known_forbidden = {"disable_audit_or_wipe_logs", "pipe_remote_script_to_shell",
                            "add_ssh_keys_or_sudoers_via_chat", "send_secrets_or_data_to_external_hosts", "wipe_root_filesystem"}
         for agent in rules["agents"].values():
+            if not isinstance(agent, dict):
+                raise ValueError("Описание агента должно быть объектом")
             if not all(k in agent for k in ("roles", "tools", "environments", "forbidden_actions")):
                 raise ValueError("Неполная политика агента")
             if set(agent["forbidden_actions"]) - known_forbidden:
                 raise ValueError("В политике есть неподдерживаемый forbidden_action")
+            supported_tools = {"run_shell", "read_logs", "restart_service", "delete_resource", "write_repository"}
+            if not isinstance(agent["tools"], list) or set(agent["tools"]) - supported_tools:
+                raise ValueError("Неизвестный инструмент")
+            if (not isinstance(agent["environments"], dict) or set(agent["environments"]) != {"prod", "nonprod"}
+                    or any(not isinstance(v, list) or any(not isinstance(p, str) or not p for p in v) for v in agent["environments"].values())):
+                raise ValueError("Нужны списки шаблонов prod и nonprod")
+            if not isinstance(agent["roles"], dict) or not agent["roles"]:
+                raise ValueError("Нужны роли")
             if "deny_confirmation_bypass_for" in agent:
                 denied = agent["deny_confirmation_bypass_for"]
                 if not isinstance(denied,list) or any(not isinstance(v,str) or v not in agent["tools"] for v in denied):
@@ -88,7 +131,9 @@ class SecurityPolicy:
                 if (not isinstance(repo, dict) or set(repo) != {"protected_branches", "development_branches"}
                         or any(not isinstance(v, list) or not v or any(not isinstance(p, str) or not p for p in v) for v in repo.values())):
                     raise ValueError("Нужны непустые списки protected_branches/development_branches")
-            for role in agent["roles"].values():
+            for role_name, role in agent["roles"].items():
+                if not re.fullmatch(r"[a-zA-Z0-9_-]{1,128}", role_name) or not isinstance(role, dict) or not isinstance(role.get("tools"), dict) or set(role["tools"]) - set(agent["tools"]):
+                    raise ValueError("Некорректная роль или её инструменты")
                 if role.get("secrets") not in ("deny", "names_only"):
                     raise ValueError("Неподдерживаемое правило secrets")
                 for permission in role["tools"].values():
@@ -102,6 +147,8 @@ class SecurityPolicy:
 
     @staticmethod
     def _result(decision: str, category: str, reason: str, level: str | None = None) -> dict:
+        if level is None and decision == "block" and category in {"data_exfiltration", "system_prompt_extraction", "privilege_escalation"}:
+            level = "critical"
         return {"decision": decision, "risk_category": category,
                 "risk_level": level or {"allow": "none", "confirm": "medium", "block": "high"}[decision],
                 "explanation": reason}
@@ -163,10 +210,12 @@ class SecurityPolicy:
                 return self._result("block", "unauthorized_data_access" if operation == "read_logs" else "tool_abuse",
                                     f"Роль {role_name} не допускает {operation} в окружении {action.environment} (семантический разбор).")
             if decision == "confirm":
-                confirmations.append(operation)
+                confirmations.append(f"{operation} в {action.environment}")
         if confirmations:
-            return self._result("confirm", "sensitive_action", f"Структура запроса: {', '.join(sorted(set(confirmations)))} требует отдельного подтверждения по YAML.")
-        return self._result("allow", "none", "Распознанные намерения соответствуют YAML-политике.")
+            return self._result("confirm", "sensitive_action", f"Роль {role_name}: {', '.join(sorted(set(confirmations)))} требует отдельного подтверждения по YAML.")
+        operations = sorted({f"{a.operation} в {a.environment}" for a in actions if a.mode == "execute"})
+        detail = ', '.join(operations[:8]) if operations else "выполнение инфраструктурных действий не запрошено"
+        return self._result("allow", "none", f"Роль {role_name}: {detail}; YAML-политика разрешает запрос.")
 
     @staticmethod
     def tools(text: str) -> list[str]:

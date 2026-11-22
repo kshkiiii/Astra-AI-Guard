@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="/assets/styles.css">
   <link rel="stylesheet" href="/assets/astra-theme.css">
   <script src="/assets/app.js" defer></script>
+  <script src="/assets/management.js" defer></script>
+  <link rel="stylesheet" href="/assets/management.css">
 </head>
 <body>
   <svg class="icon-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -85,19 +87,32 @@
           </section>
         </aside>
       </div>
-      
+      <section class="card session-card" aria-label="Сессии">
+        <div class="section-toolbar"><div><h2>Сессии</h2><p>Сохранённая история изолирована в этом браузере. Срок хранения — 24 часа.</p></div><button type="button" class="button secondary compact" id="new-session">Новая сессия</button></div>
+        <div class="session-controls"><label>Текущая сессия<select id="session-select"><option value="">Без сессии</option></select></label><button type="button" class="text-button" id="clear-session" disabled>Очистить историю</button><button type="button" class="text-button danger-text" id="delete-session" disabled>Удалить сессию</button></div>
+        <div class="examples"><span>Сценарии:</span><button type="button" id="session-legitimate">Легитимное продолжение</button><button type="button" id="session-attack">Многошаговая атака</button></div>
+        <p id="session-effect" role="status">Независимая проверка: используются только введённые история и вложения.</p><div id="session-messages" class="session-messages" hidden></div><div id="session-error" class="error-message" role="alert" hidden></div>
+      </section>
     </section>
 
     <section id="audit-view" aria-labelledby="audit-title" hidden>
       <div class="page-heading"><div><div class="eyebrow">ЖУРНАЛ РЕШЕНИЙ</div><h1 id="audit-title">Каждое решение — на виду.</h1><p>История проверок и подтверждений. Содержимое запросов не записывается.</p></div></div>
-      <div class="card audit-card"><div class="audit-toolbar"><div class="filter-group" role="group" aria-label="Фильтр решений"><button class="filter active" data-filter="" aria-pressed="true">Все решения</button><button class="filter" data-filter="allow" aria-pressed="false">Allow</button><button class="filter" data-filter="confirm" aria-pressed="false">Confirm</button><button class="filter" data-filter="block" aria-pressed="false">Block</button></div><button class="button secondary compact" id="refresh-audit"><svg class="icon"><use href="#i-refresh"/></svg>Обновить</button></div><div id="audit-error" class="error-message" role="alert" hidden></div><div class="table-scroll"><table><caption class="sr-only">Журнал решений ИИ-сторожа</caption><thead><tr><th>Время / ID запроса</th><th>Роль</th><th>Решение</th><th>Категория</th><th>Задержка</th><th>Событие</th></tr></thead><tbody id="audit-rows"></tbody></table></div><div id="audit-empty" class="audit-empty" hidden>Проверок пока нет. Начните с нового запроса.</div><div class="audit-bottom"><span id="audit-total" class="muted">Загрузка журнала…</span><button id="load-more" class="text-button" hidden>Показать ещё</button></div></div>
+      <div class="card audit-card"><div class="audit-toolbar"><div class="filter-group" role="group" aria-label="Фильтр решений"><button class="filter active" data-filter="" aria-pressed="true">Все решения</button><button class="filter" data-filter="allow" aria-pressed="false">Allow</button><button class="filter" data-filter="confirm" aria-pressed="false">Confirm</button><button class="filter" data-filter="block" aria-pressed="false">Block</button></div><button class="button secondary compact" id="refresh-audit"><svg class="icon"><use href="#i-refresh"/></svg>Обновить</button></div><div class="audit-extra-filters"><label>Роль<select id="audit-role"><option value="">Все роли</option><option>developer</option><option>sre</option><option>admin</option></select></label><label>Категория<select id="audit-category"><option value="">Все категории</option></select></label><label>С даты<input type="datetime-local" id="audit-since"></label><label>По дату<input type="datetime-local" id="audit-until"></label><button type="button" class="text-button" id="audit-reset">Сбросить фильтры</button></div><div id="audit-error" class="error-message" role="alert" hidden></div><div class="table-scroll"><table><caption class="sr-only">Журнал решений ИИ-сторожа</caption><thead><tr><th>Время / ID запроса</th><th>Роль</th><th>Решение</th><th>Категория</th><th>Задержка</th><th>Событие</th><th>Политика</th></tr></thead><tbody id="audit-rows"></tbody></table></div><div id="audit-empty" class="audit-empty" hidden>Проверок пока нет. Начните с нового запроса.</div><div class="audit-bottom"><span id="audit-total" class="muted">Загрузка журнала…</span><button id="load-more" class="text-button" hidden>Показать ещё</button></div></div>
     </section>
     <section id="policy-view" aria-labelledby="policy-title" hidden>
       <div class="page-heading"><div><div class="eyebrow">ПРАВИЛА БЕЗОПАСНОСТИ</div><h1 id="policy-title">Настройка политики</h1><p>Управление правилами доступа и подтверждения действий.</p></div></div>
-      <div class="card policy-placeholder"><svg class="icon"><use href="#i-tool"/></svg><h2>Раздел в разработке</h2><p>Здесь появятся настройки ролей, инструментов и окружений. Пока страница работает как заглушка.</p></div>
+      <div class="policy-layout"><div class="card policy-editor-card">
+        <div class="section-toolbar"><div><h2>Действующая политика <span id="editor-version" class="version-tag"></span></h2><p>Изменения применяются сразу после проверки. Ожидающие подтверждения сбрасываются.</p></div><button type="button" class="text-button" id="reload-policy">Обновить</button></div>
+        <div id="policy-matrix" class="table-scroll"></div>
+        <label class="editor-label" for="policy-yaml">Правила YAML</label><textarea id="policy-yaml" class="yaml-editor" spellcheck="false" aria-label="Редактор YAML-политики" readonly></textarea>
+        <div class="dialog-actions"><button type="button" class="button secondary" id="validate-policy" disabled>Проверить правила</button><button type="button" class="button primary" id="apply-policy" disabled>Применить изменения</button></div>
+        <p id="policy-status" role="status">Загрузка политики…</p><div id="policy-error" class="error-message" role="alert" hidden></div>
+      </div><aside class="card policy-access"><h2>Доступ к управлению</h2><p>Просмотр доступен всем. Для изменения нужен административный ключ сервера.</p><label for="admin-token">Административный ключ</label><input type="password" id="admin-token" autocomplete="off" placeholder="Введите ключ"><div class="dialog-actions"><button type="button" class="button secondary" id="unlock-policy">Открыть доступ</button><button type="button" class="text-button" id="lock-policy">Выйти</button></div><p id="admin-status">Ключ хранится только в памяти вкладки.</p><h3>История изменений</h3><div id="policy-changes"><p>Откройте доступ для просмотра.</p></div></aside></div>
     </section>
   </main>
   <footer class="site-footer"><div class="site-container footer-inner"><div class="footer-brand"><img src="/assets/astra-logo.svg" alt="Группа Астра" width="187" height="50"></div><p>Демонстрационный проект по кейсу «Астра».<br>Агент фиксирует получение запроса без выполнения команд.</p></div></footer>
+
+  <div id="role-session-toast" class="role-session-toast" role="alert" aria-atomic="true" hidden><strong>Роль закреплена за сессией</strong><p id="role-session-toast-text"></p><button type="button" class="text-button" id="role-session-exit">Выйти из сессии</button><button type="button" class="icon-button" id="role-session-toast-close" aria-label="Закрыть уведомление">×</button></div>
 
   <dialog id="confirmation-dialog" aria-labelledby="confirmation-title"><div class="dialog-heading"><span class="decision-icon confirm"><svg class="icon"><use href="#i-pause"/></svg></span><button class="icon-button" id="close-dialog" aria-label="Закрыть подтверждение"><svg class="icon"><use href="#i-close"/></svg></button></div><h2 id="confirmation-title">Подтвердить передачу?</h2><p class="dialog-description">Это действие требует вашего отдельного согласия. Агент получит сохранённый запрос с проверенным контекстом.</p><div class="confirmation-preview"><span class="muted" id="confirmation-role"></span><p id="confirmation-prompt"></p><span class="muted" id="confirmation-context"></span></div><label class="consent-label"><input type="checkbox" id="confirmation-consent"><span>Я подтверждаю передачу именно этого запроса демо-агенту.</span></label><div class="error-message" id="confirmation-error" role="alert" hidden></div><div class="dialog-actions"><button class="button secondary" id="cancel-confirmation">Отмена</button><button class="button primary" id="confirm-button" disabled>Подтвердить и передать</button></div></dialog>
 

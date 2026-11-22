@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+from datetime import datetime, timezone
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Annotated
@@ -113,9 +114,16 @@ def create_app(settings: Settings | None = None, service_factory=GuardService.lo
 
     @app.get("/v1/audit", tags=["audit"])
     def audit(limit: Annotated[int, Query(ge=1, le=200)] = 50,
-              before: Annotated[int | None, Query(ge=1)] = None, decision: Decision | None = None):
+              before: Annotated[int | None, Query(ge=1)] = None, decision: Decision | None = None,
+              user_role: Annotated[str | None, Query(max_length=128)] = None,
+              category: Annotated[str | None, Query(max_length=128)] = None,
+              since: datetime | None = None, until: datetime | None = None):
         """Метаданные без исходных текстов, имён пользователей и системных промптов."""
-        items = service().audit.recent(limit, before, decision)
+        def utc(value):
+            return value.replace(tzinfo=value.tzinfo or timezone.utc).astimezone(timezone.utc).isoformat() if value else None
+        if since and until and utc(since) > utc(until):
+            raise HTTPException(422, detail={"error": "invalid_date_range"})
+        items = service().audit.recent(limit, before, decision, user_role, category, utc(since), utc(until))
         return {"items": items, "next_before": items[-1]["id"] if len(items) == limit else None}
 
     if settings.demo_enabled:
@@ -138,6 +146,9 @@ def create_app(settings: Settings | None = None, service_factory=GuardService.lo
                     demo_user: Annotated[str, Header(alias="X-Demo-User")]):
             """Явное подтверждение сохранённого запроса тем же демо-пользователем."""
             return service().confirm(token, identity(demo_user)["user_id"])
+
+    from api.management import register_management
+    register_management(app, service, settings)
 
     frontend = Path(__file__).resolve().parents[1] / "frontend"
 

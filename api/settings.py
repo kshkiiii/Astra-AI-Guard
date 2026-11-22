@@ -17,6 +17,11 @@ class Settings:
     confirmation_ttl_seconds: int = 600
     max_pending: int = 256
     demo_enabled: bool = True
+    admin_token: str = ""
+    admin_user: str = "operator"
+    session_ttl_seconds: int = 86400
+    session_max_chars: int = 100_000
+    cookie_secure: bool = False
 
     @classmethod
     def from_env(cls) -> Settings:
@@ -28,4 +33,8 @@ class Settings:
             audit_path=path("GUARD_AUDIT_PATH", cls.audit_path),
             cors_origins=tuple(s.strip() for s in os.getenv("GUARD_CORS_ORIGINS", "").split(",") if s.strip()),
             demo_enabled=os.getenv("GUARD_DEMO_ENABLED", "1") == "1",
+            admin_token=os.getenv("GUARD_ADMIN_TOKEN", ""),
+            admin_user=os.getenv("GUARD_ADMIN_USER", "operator"),
+            session_ttl_seconds=max(60, min(604800, int(os.getenv("GUARD_SESSION_TTL", "86400")))),
+            cookie_secure=os.getenv("GUARD_COOKIE_SECURE", "0") == "1",
         )
