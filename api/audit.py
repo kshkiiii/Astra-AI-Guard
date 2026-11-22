@@ -30,7 +30,7 @@ class AuditLog:
 
     @contextmanager
     def _connect(self):
-        connection = sqlite3.connect(self.path, timeout=5)
+        connection = sqlite3.connect(self.path, timeout=.1)
         connection.row_factory = sqlite3.Row
         try:
             with connection:

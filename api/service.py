@@ -3,6 +3,7 @@ from __future__ import annotations
 import secrets
 import threading
 import time
+from concurrent.futures import ThreadPoolExecutor, TimeoutError as FutureTimeout
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from uuid import uuid4
@@ -13,8 +14,7 @@ from threadpoolctl import threadpool_limits
 from api.audit import AuditLog
 from api.schemas import AgentReceipt, CheckRequest, CheckResponse, CheckResult, DemoResponse
 from api.settings import Settings
-from model import Guard, GuardModel, load_config
-from policy import SecurityPolicy
+from model import Guard, load_config
 
 
 def now() -> str:
@@ -46,14 +46,15 @@ class GuardService:
         self._inference_lock = threading.Lock()
         self._demo_lock = threading.Lock()
         self._pending: dict[str, Pending] = {}
+        self._executor = ThreadPoolExecutor(max_workers=1,thread_name_prefix="guard-cpu") if getattr(guard,"deadline_seconds",None) else None
 
     @classmethod
     def load(cls, settings: Settings) -> GuardService:
         config = load_config(settings.config_path)
-        model = GuardModel.load(config["paths"]["model"])
-        guard = Guard(model, SecurityPolicy(config["paths"]["policy"]), config["model"]["attack_threshold"])
+        guard = Guard.from_config(config)
         service = cls(guard, AuditLog(settings.audit_path), settings)
-        # Warm up ONNX/tokenizer before readiness; a missing encoder aborts startup.
+
+
         service._infer(CheckRequest(user_prompt="Покажи логи сервиса в dev", context={
             "target_agent": "it_ops_agent", "user_role": "developer"}))
         return service
@@ -75,9 +76,31 @@ class GuardService:
         # inference and an unbounded queue; readiness remains responsive.
         if not self._inference_lock.acquire(blocking=False):
             raise HTTPException(503, detail={"error": "guard_busy"}, headers={"Retry-After": "1"})
+        if self._executor:
+            future=self._executor.submit(self._execute_infer,request)
+            try:
+                return future.result(timeout=self.guard.deadline_seconds)
+            except FutureTimeout:
+                raise HTTPException(503,detail={"error":"guard_budget_exceeded"}) from None
+        return self._execute_infer(request)
+
+    def close(self):
+        if self._executor:
+            self._executor.shutdown(wait=False,cancel_futures=True)
+
+    def _execute_infer(self,request):
         try:
             with threadpool_limits(limits=1, user_api="blas"):
-                result = self.guard.check(request.user_prompt, request.context.model_dump(exclude_none=True))
+                from local_runtime import ModelInputTooLong, ModelUnavailable
+                from inference_budget import InferenceBudgetExceeded
+                try:
+                    result = self.guard.check(request.user_prompt, request.context.model_dump(exclude_none=True))
+                except ModelInputTooLong:
+                    raise HTTPException(413, detail={"error": "llm_context_too_long"}) from None
+                except ModelUnavailable:
+                    raise HTTPException(503, detail={"error": "llm_unavailable"}) from None
+                except InferenceBudgetExceeded:
+                    raise HTTPException(503,detail={"error":"guard_budget_exceeded"}) from None
             return CheckResult.model_validate(result)
         finally:
             try:

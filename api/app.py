@@ -60,6 +60,8 @@ def create_app(settings: Settings | None = None, service_factory=GuardService.lo
         try:
             yield
         finally:
+            if hasattr(app.state.service,"close"):
+                app.state.service.close()
             app.state.service = None
 
     app = FastAPI(title="ИИ-сторож API", version="1.0.0", lifespan=lifespan,
@@ -97,7 +99,11 @@ def create_app(settings: Settings | None = None, service_factory=GuardService.lo
 
     @app.get("/ready", tags=["service"])
     def ready():
-        return {"status": "ready", "policy_version": service().guard.policy.version,
+        guard = service().guard
+        if hasattr(guard, "is_ready") and not guard.is_ready():
+            raise HTTPException(503, detail={"error": "llm_unavailable"})
+        return {"status": "ready", "policy_version": guard.policy.version,
+                "backend": getattr(guard, "backend", "layered"),
                 "demo_enabled": settings.demo_enabled}
 
     @app.post("/v1/check", response_model=CheckResponse, tags=["guard"])

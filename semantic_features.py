@@ -37,6 +37,8 @@ class LocalE5Transformer(TransformerMixin, BaseEstimator):
         return {k: v for k, v in self.__dict__.items() if k != "_cache"}
 
     def transform(self, X):
+        from inference_budget import check_budget
+        check_budget()
         if self.batch_size != 1:
             raise ValueError("Для воспроизводимых INT8-признаков требуется batch_size=1")
         texts = list(X)
@@ -46,6 +48,7 @@ class LocalE5Transformer(TransformerMixin, BaseEstimator):
             session, tokenizer = _runtime(str(Path(self.directory).resolve()), self.threads, self.max_length)
             inputs = {value.name for value in session.get_inputs()}
             for start in range(0, len(missing), self.batch_size):
+                check_budget()
                 batch = missing[start:start + self.batch_size]
                 originals = tokenizer.encode_batch(["query: " + text for text in batch])
                 windows, owners = [], []
@@ -53,9 +56,10 @@ class LocalE5Transformer(TransformerMixin, BaseEstimator):
                     for window in [encoding, *encoding.overflowing]:
                         windows.append(window)
                         owners.append(owner)
-                
+
                 pooled = []
                 for offset in range(0, len(windows), self.batch_size):
+                    check_budget()
                     part = windows[offset:offset + self.batch_size]
                     length = max(len(e.ids) for e in part)
                     ids = np.full((len(part), length), 1, dtype=np.int64)
@@ -65,6 +69,7 @@ class LocalE5Transformer(TransformerMixin, BaseEstimator):
                         mask[i, :len(encoding.attention_mask)] = encoding.attention_mask
                     feed = {"input_ids": ids, "attention_mask": mask, "token_type_ids": np.zeros_like(ids)}
                     hidden = session.run(None, {k: v for k, v in feed.items() if k in inputs})[0]
+                    check_budget()
                     averaged = (hidden * mask[..., None]).sum(axis=1) / np.maximum(mask.sum(axis=1, keepdims=True), 1)
                     pooled.extend(averaged)
                 vectors = np.asarray(pooled, dtype=np.float32)

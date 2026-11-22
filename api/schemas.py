@@ -49,6 +49,9 @@ class CheckResult(BaseModel):
     latency_ms: float = Field(ge=0, allow_inf_nan=False)
     policy_version: int | str
     attack_probability: float = Field(ge=0, le=1, allow_inf_nan=False)
+    intent: list[dict] = Field(default_factory=list)
+    checks: list[dict] = Field(default_factory=list)
+    backend: str = "layered"
 
 
 class CheckResponse(CheckResult):

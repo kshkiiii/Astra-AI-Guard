@@ -1,9 +1,6 @@
-.venv/
+/old/
+/.venv/
+/artifacts/
+/reports/
 __pycache__/
 *.pyc
-artifacts/
-reports/
-additional_datasets/raw/
-research/
-tests/
-!api/tests/

@@ -23,8 +23,36 @@ CYR_TO_LAT = str.maketrans("асеорхуікмт", "aceopxyikmt")
 LAT_TO_CYR = str.maketrans("aceopxy", "асеорху")
 
 
+def environment_text(text: str) -> str:
+
+
+    text = normalize(text)
+    text = re.sub(r"(?<!\w)p[ ._-]+r[ ._-]+o[ ._-]+d(?!\w)", "prod", text)
+    text = re.sub(r"(?<!\w)п[ ._-]+р[ ._-]+о[ ._-]+д(?!\w)", "прод", text)
+    text = re.sub(r"\bpr0d\b", "prod", text)
+    def one_edit(a, b):
+        if a == b:
+            return True
+        if abs(len(a)-len(b)) > 1:
+            return False
+        if len(a) == len(b):
+            differences = [i for i, (x, y) in enumerate(zip(a, b)) if x != y]
+            return len(differences) == 1 or (len(differences) == 2 and differences[1] == differences[0]+1
+                and a[differences[0]] == b[differences[1]] and a[differences[1]] == b[differences[0]])
+        shorter, longer = (a, b) if len(a) < len(b) else (b, a)
+        return any(longer[:i]+longer[i+1:] == shorter for i in range(len(longer)))
+    def repair(match):
+        token = match.group()
+        for canonical in ("prod", "production", "продакшен", "продакшн"):
+            if one_edit(token, canonical):
+                return canonical
+        return token
+    text = re.sub(r"(?<![\w/-])[a-zа-яё]{4,12}(?![\w/-])", repair, text)
+    return text
+
+
 def normalize(text: str, homoglyphs: bool = True) -> str:
-    
+
     text = unicodedata.normalize("NFKC", text).casefold()
     text = "".join(c for c in text if unicodedata.category(c) != "Cf")
     if homoglyphs:
@@ -39,8 +67,26 @@ def normalize(text: str, homoglyphs: bool = True) -> str:
     return re.sub(r"[ \t]+", " ", text).strip()
 
 
+def decoded_payloads(text: str) -> list[str]:
+
+    pending, values = [text], []
+    for _ in range(2):
+        decoded = []
+        for candidate in pending:
+            for token in re.findall(r"(?<![\w+/])[A-Za-z0-9+/]{16,}={0,2}(?![\w+/=])", candidate):
+                try:
+                    value = base64.b64decode(token + "=" * (-len(token) % 4), validate=True).decode("utf-8")
+                    if value and sum(c.isprintable() or c.isspace() for c in value) / len(value) > .95:
+                        decoded.append(value)
+                except (ValueError, UnicodeError):
+                    continue
+        values.extend(decoded)
+        pending = decoded
+    return list(dict.fromkeys(values))
+
+
 def text_variants(text: str, options: dict) -> list[str]:
-    
+
     normalized = normalize(text, options.get("normalize_homoglyphs", True))
     variants = [normalized]
     spaced = re.sub(r"(?<!\w)(?:[a-zа-яё]\s+){3,}[a-zа-яё](?!\w)",
@@ -63,20 +109,7 @@ def text_variants(text: str, options: dict) -> list[str]:
         payload = text.split(":", 1)[-1]
         variants.append(normalize(payload[::-1]))
     if options.get("decode_base64", True):
-        
-        pending = [text]
-        for _ in range(2):
-            decoded = []
-            for candidate in pending:
-                for token in re.findall(r"(?<![\w+/])[A-Za-z0-9+/]{16,}={0,2}(?![\w+/=])", candidate):
-                    try:
-                        value = base64.b64decode(token + "=" * (-len(token) % 4), validate=True).decode("utf-8")
-                        if value and sum(c.isprintable() or c.isspace() for c in value) / len(value) > .95:
-                            decoded.append(value)
-                    except (ValueError, UnicodeError):
-                        continue
-            variants.extend(normalize(v) for v in decoded)
-            pending = decoded
+        variants.extend(normalize(v) for v in decoded_payloads(text))
     return list(dict.fromkeys(variants))
 
 
@@ -115,7 +148,7 @@ def prepare_input(user_prompt: str, context: dict, options: dict) -> PreparedInp
             if offset + size >= len(body):
                 break
     full = "\n".join(pieces)
-    
-    
+
+
     views = (full,) if len(segments) == 1 and len(full) <= size else tuple(dict.fromkeys([full, *chunks]))
     return PreparedInput(full, views, tuple(segments))

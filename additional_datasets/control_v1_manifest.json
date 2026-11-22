@@ -1,6 +1,0 @@
-{
-  "sha256": "b5c1f4e189912b5578df5480823d9be0ee791759659887e3229245fec2703d4d",
-  "rows": 48,
-  "use": "evaluation_only",
-  "note": "Authored before candidate benchmark runs, not used for training/threshold selection; small synthetic diagnostic, not independent human benchmark."
-}
