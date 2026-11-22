@@ -1,7 +1,7 @@
 {
   "format_version": 1,
-  "download_base": "https://media.githubusercontent.com/media/kshkiiii/-------/main",
-  "raw_base": "https://raw.githubusercontent.com/kshkiiii/-------/main",
+  "download_base": "https://media.githubusercontent.com/media/kshkiiii/Astra-AI-Guard/main",
+  "raw_base": "https://raw.githubusercontent.com/kshkiiii/Astra-AI-Guard/main",
   "files": {
     "artifacts/encoders/multilingual-e5-small/manifest.json": {
       "bytes": 1055,
